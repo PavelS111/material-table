@@ -48,11 +48,11 @@ class App extends Component {
     ],
     columns: [
       { title: 'Adı', field: 'name' },
-      { title: 'Soyadı', field: 'surname', grouping: false, filtering: false },
+      { title: 'Soyadı', field: 'surname', grouping: false },
       { title: 'Evli', field: 'isMarried', type: 'boolean' },
       { title: 'Cinsiyet', field: 'sex', disableClick: true, editable: 'onAdd' },
       { title: 'Tipi', field: 'type', removable: false, editable: 'never' },
-      { title: 'Doğum Yılı', field: 'birthDate', type: 'date' },
+      { title: 'Doğum Yılı', field: 'birthDate', type: 'date', filtering: false },
       { title: 'Doğum Yeri', field: 'birthCity', lookup: { 34: 'İstanbul', 0: 'Şanlıurfa' } },
       { title: 'Kayıt Tarihi', field: 'insertDateTime', type: 'datetime' },
       { title: 'Zaman', field: 'time', type: 'time' }
