@@ -109,6 +109,16 @@ export class MTableHeader extends React.Component {
       </TableCell>
     );
   }
+
+  renderDetailPanelColumnCell() {
+    return <TableCell
+            padding="none"
+            key="key-detail-panel-column"
+            className={this.props.classes.header}
+            style={{ ...this.props.headerStyle }}
+          />;
+  }
+
   render() {
     const headers = this.renderHeader();
     if (this.props.hasSelection) {
@@ -128,14 +138,11 @@ export class MTableHeader extends React.Component {
     }
 
     if (this.props.hasDetailPanel) {
-      headers.splice(0, 0,
-        <TableCell
-          padding="none"
-          key="key-detail-panel-column"
-          className={this.props.classes.header}
-          style={{ ...this.props.headerStyle }}
-        />
-      );
+      if (this.props.detailPanelColumnAlignment === 'right') {
+        headers.push(this.renderDetailPanelColumnCell());
+      } else {
+        headers.splice(0, 0, this.renderDetailPanelColumnCell());
+      }
     }
 
     if (this.props.isTreeData > 0) {
@@ -176,13 +183,15 @@ MTableHeader.defaultProps = {
   },
   orderBy: undefined,
   orderDirection: 'asc',
-  actionsHeaderIndex: 0
+  actionsHeaderIndex: 0,
+  detailPanelColumnAlignment: "left"
 };
 
 MTableHeader.propTypes = {
   columns: PropTypes.array.isRequired,
   dataCount: PropTypes.number,
   hasDetailPanel: PropTypes.bool.isRequired,
+  detailPanelColumnAlignment: PropTypes.string,
   hasSelection: PropTypes.bool,
   headerStyle: PropTypes.object,
   localization: PropTypes.object,
