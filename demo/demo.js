@@ -48,7 +48,7 @@ class App extends Component {
     ],
     columns: [
       { title: 'Adı', field: 'name' },
-      { title: 'Soyadı', field: 'surname', grouping: false },
+      { title: 'Soyadı', field: 'surname', grouping: false, filtering: false },
       { title: 'Evli', field: 'isMarried', type: 'boolean' },
       { title: 'Cinsiyet', field: 'sex', disableClick: true, editable: 'onAdd' },
       { title: 'Tipi', field: 'type', removable: false, editable: 'never' },
@@ -82,7 +82,9 @@ class App extends Component {
                   title="Demo Title"
                   options={{
                     selection: true,
-                    grouping: true
+                    grouping: true,
+                    filtering: true,
+                    filterType: 'header'
                   }}
                 />
               </Grid>
