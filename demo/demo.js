@@ -85,7 +85,7 @@ class App extends Component {
                     grouping: true,
                     filtering: true,
                     filterType: 'header',
-                    maxBodyHeight: '200px',
+                    maxBodyHeight: '400px',
                   }}
                 />
               </Grid>
