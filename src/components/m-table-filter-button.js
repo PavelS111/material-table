@@ -5,7 +5,7 @@ import {
     ListItemText, InputAdornment, withStyles,
     Popover, List, ListItem,
 } from '@material-ui/core';
-import { MuiPickersUtilsProvider, TimePicker, DatePicker, DateTimePicker } from 'material-ui-pickers';
+import { MuiPickersUtilsProvider, TimePicker, DatePicker, DateTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import PropTypes from 'prop-types';
 /* eslint-enable no-unused-vars */
