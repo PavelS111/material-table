@@ -47,6 +47,16 @@ class MTableFilterButton extends React.Component {
         }
         this.props.onFilterChanged(columnDef.tableData.id, val);
     }
+    handleFilterNumericChange = (columnDef, value, index) => {
+        let filterValue = columnDef.tableData.filterValue;
+        //if both value are undef => filterValue = undef
+        if (!value && filterValue && !filterValue[Math.abs(index - 1)]) filterValue = undefined;
+        else {
+            if (filterValue == undefined) filterValue = [undefined, undefined];
+            filterValue[index] = value;
+        }
+        this.props.onFilterChanged(columnDef.tableData.id, filterValue);
+    }
     renderFilterBody(columnDef) {
         if (columnDef.field || columnDef.customFilterAndSearch) {
             if (columnDef.lookup) {
@@ -55,6 +65,8 @@ class MTableFilterButton extends React.Component {
                 return this.renderBooleanFilter(columnDef);
             } else if (['date', 'datetime', 'time'].includes(columnDef.type)) {
                 return this.renderDateTypeFilter(columnDef);
+            } else if (columnDef.type === 'numeric') {
+                return this.renderNumericFilter(columnDef);
             } else {
                 return this.renderDefaultFilter(columnDef);
             }
@@ -94,6 +106,39 @@ class MTableFilterButton extends React.Component {
                 checked={columnDef.tableData.filterValue === 'checked'}
                 onChange={() => this.handleCheckboxToggle(columnDef)}
             />
+        );
+    }
+    renderNumericFilter = (columnDef) => {
+        const { classes } = this.props;
+        return (
+            <>
+                <TextField
+                    type='number'
+                    className={classes.filterNumericFrom}
+                    value={(columnDef.tableData.filterValue && columnDef.tableData.filterValue[0]) || ''}
+                    onChange={(event) => this.handleFilterNumericChange(columnDef, event.target.value, 0)}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <>С:</>
+                            </InputAdornment>
+                        )
+                    }}
+                />
+                <TextField
+                    type='number'
+                    className={classes.filterNumericTo}
+                    value={(columnDef.tableData.filterValue && columnDef.tableData.filterValue[1]) || ''}
+                    onChange={(event) => this.handleFilterNumericChange(columnDef, event.target.value, 1)}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <>По:</>
+                            </InputAdornment>
+                        )
+                    }}
+                />
+            </>
         );
     }
     renderDefaultFilter = (columnDef) => {
@@ -192,7 +237,7 @@ class MTableFilterButton extends React.Component {
 export const styles = theme => ({
     filterIcon: {
         verticalAlign: 'middle',
-        cursor: 'pointer'
+        cursor: 'pointer',
     },
     filterBody: {
         padding: '8px'
@@ -210,6 +255,14 @@ export const styles = theme => ({
         fontSize: '1rem',
         fontWeight: '400',
         lineHeight: '1.5em'
+    },
+    filterNumericFrom: {
+        width: '100px',
+        marginRight: '5px'
+    },
+    filterNumericTo: {
+        width: '100px',
+        marginLeft: '5px'
     },
 });
 

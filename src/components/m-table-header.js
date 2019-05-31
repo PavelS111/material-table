@@ -53,13 +53,13 @@ export class MTableHeader extends React.Component {
         if (this.props.filtering && this.props.filterType == 'header') {
           content = (
             <>
-              {content}
+              {['numeric'].indexOf(columnDef.type) === -1  && content}
               <this.props.components.FilterButton
                 icons={this.props.icons}
                 columnDef={columnDef}
                 onFilterChanged={this.props.onFilterChanged}
-              >
-              </this.props.components.FilterButton>
+              />
+              {['numeric'].indexOf(columnDef.type) !== -1  && content}
             </>
           );
         }

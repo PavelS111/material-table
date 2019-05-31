@@ -497,8 +497,12 @@ export default class DataManager {
             });
           } else if (type === 'numeric') {
             this.filteredData = this.filteredData.filter(row => {
+              const term = tableData.filterValue;
               const value = this.getFieldValue(row, columnDef);
-              return (value + "") === tableData.filterValue;
+              if (!term) return true;
+              if (term[0] && value < term[0]) return false;
+              if (term[1] && value > term[1]) return false;
+              return true;
             });
           } else if (type === 'boolean' && tableData.filterValue) {
             this.filteredData = this.filteredData.filter(row => {
