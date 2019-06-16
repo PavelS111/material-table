@@ -627,7 +627,12 @@ function (_React$Component) {
           actionsHeaderIndex: props.options.actionsColumnIndex,
           sorting: props.options.sorting,
           grouping: props.options.grouping,
-          isTreeData: _this4.props.parentChildData !== undefined
+          filtering: props.options.filtering,
+          filterType: props.options.filterType,
+          isTreeData: _this4.props.parentChildData !== undefined,
+          icons: _this4.props.icons,
+          onFilterChanged: _this4.onFilterChange,
+          components: props.components
         }), React.createElement(props.components.Body, {
           actions: props.actions,
           components: props.components,

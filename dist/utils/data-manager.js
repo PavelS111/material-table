@@ -164,9 +164,14 @@ function () {
               });
             } else if (type === 'numeric') {
               _this.filteredData = _this.filteredData.filter(function (row) {
+                var term = tableData.filterValue;
+
                 var value = _this.getFieldValue(row, columnDef);
 
-                return value + "" === tableData.filterValue;
+                if (!term) return true;
+                if (term[0] && value < term[0]) return false;
+                if (term[1] && value > term[1]) return false;
+                return true;
               });
             } else if (type === 'boolean' && tableData.filterValue) {
               _this.filteredData = _this.filteredData.filter(function (row) {

@@ -195,7 +195,7 @@ function (_React$Component) {
         emptyRowCount = this.props.pageSize - renderData.length;
       }
 
-      return React.createElement(_core.TableBody, null, this.props.options.filtering && React.createElement(this.props.components.FilterRow, {
+      return React.createElement(_core.TableBody, null, this.props.options.filtering && this.props.options.filterType == 'row' && React.createElement(this.props.components.FilterRow, {
         columns: this.props.columns.filter(function (columnDef) {
           return !columnDef.hidden;
         }),

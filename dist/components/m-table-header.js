@@ -94,11 +94,21 @@ function (_React$Component) {
           }, content);
         }
 
+        if (_this.props.filtering && _this.props.filterType == 'header') {
+          content = React.createElement(React.Fragment, null, ['numeric'].indexOf(columnDef.type) === -1 && content, React.createElement(_this.props.components.FilterButton, {
+            icons: _this.props.icons,
+            columnDef: columnDef,
+            onFilterChanged: _this.props.onFilterChanged
+          }), ['numeric'].indexOf(columnDef.type) !== -1 && content);
+        }
+
         return React.createElement(_core.TableCell, {
           key: columnDef.tableData.id,
           align: ['numeric'].indexOf(columnDef.type) !== -1 ? "right" : "left",
           className: _this.props.classes.header,
-          style: (0, _objectSpread2["default"])({}, _this.props.headerStyle, columnDef.headerStyle)
+          style: (0, _objectSpread2["default"])({}, _this.props.headerStyle, columnDef.headerStyle, {
+            whiteSpace: 'nowrap'
+          })
         }, content);
       });
       return mapArr;

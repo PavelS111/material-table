@@ -125,6 +125,7 @@ var propTypes = {
     exportFileName: _propTypes["default"].string,
     exportCsv: _propTypes["default"].func,
     filtering: _propTypes["default"].bool,
+    filterType: _propTypes["default"].oneOf(['row', 'header']),
     filterCellStyle: _propTypes["default"].object,
     header: _propTypes["default"].bool,
     headerStyle: _propTypes["default"].object,
