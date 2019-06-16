@@ -119,6 +119,7 @@ export const propTypes = {
     exportFileName: PropTypes.string,
     exportCsv: PropTypes.func,
     filtering: PropTypes.bool,
+    filterType: PropTypes.oneOf(['row', 'header']),
     filterCellStyle: PropTypes.object,
     header: PropTypes.bool,
     headerStyle: PropTypes.object,

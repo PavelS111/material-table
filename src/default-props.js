@@ -36,7 +36,8 @@ export const defaultProps = {
     OverlayLoading: OverlayLoading,
     Pagination: TablePagination,
     Row: MComponents.MTableBodyRow,
-    Toolbar: MComponents.MTableToolbar
+    Toolbar: MComponents.MTableToolbar,
+    FilterButton: MComponents.MTableFilterButton
   },
   data: [],
   icons: {
@@ -74,6 +75,7 @@ export const defaultProps = {
     exportButton: false,
     exportDelimiter: ',',
     filtering: false,
+    filterType: 'row',
     header: true,
     loadingType: 'overlay',
     paging: true,
