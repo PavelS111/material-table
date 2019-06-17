@@ -30,6 +30,8 @@ export interface MaterialTableProps {
   onTreeExpandChange?: (data: any, isExpanded: boolean) => void;
   style?: React.CSSProperties;
   tableRef?: any;
+  onChangeColumnOrder?: (columns: Column[]) => void;
+  onChangeColumnHidden?: (columnId: number, hidden: boolean, columns: Column[]) => Promise<void>;
 }
 
 export interface Filter {
