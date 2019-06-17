@@ -31,7 +31,7 @@ export interface MaterialTableProps {
   style?: React.CSSProperties;
   tableRef?: any;
   onChangeColumnOrder?: (columns: Column[]) => void;
-  onChangeColumnHidden?: (columnId: number, hidden: boolean, columns: Column[]) => Promise<void>;
+  onChangeColumnHidden?: (columnId: number, hidden: boolean, columns: Column[]) => void;
 }
 
 export interface Filter {
