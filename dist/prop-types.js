@@ -167,8 +167,10 @@ var propTypes = {
   onChangePage: _propTypes["default"].func,
   onOrderChange: _propTypes["default"].func,
   onRowClick: _propTypes["default"].func,
+  onChangeColumnHidden: _propTypes["default"].func,
   onTreeExpandChange: _propTypes["default"].func,
   tableRef: _propTypes["default"].any,
-  style: _propTypes["default"].object
+  style: _propTypes["default"].object,
+  onChangeColumnOrder: _propTypes["default"].func
 };
 exports.propTypes = propTypes;

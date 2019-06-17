@@ -68,9 +68,25 @@ function (_React$Component) {
       });
     });
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "onChangeColumnHidden", function (columnId, hidden) {
-      _this.dataManager.changeColumnHidden(columnId, hidden);
+      var updateState = function updateState() {
+        _this.dataManager.changeColumnHidden(columnId, hidden);
 
-      _this.setState(_this.dataManager.getRenderState());
+        _this.setState(_this.dataManager.getRenderState());
+      };
+
+      if (_this.props.onChangeColumnHidden) {
+        var eventResult = _this.props.onChangeColumnHidden(columnId, hidden, _this.state.columns);
+
+        if (eventResult && eventResult.then) {
+          eventResult.then(function () {
+            updateState();
+          });
+        } else {
+          updateState();
+        }
+      } else {
+        updateState();
+      }
     });
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "onChangeGroupOrder", function (groupedColumn) {
       _this.dataManager.changeGroupOrder(groupedColumn.tableData.id);
@@ -138,6 +154,12 @@ function (_React$Component) {
       _this.dataManager.changeByDrag(result);
 
       _this.setState(_this.dataManager.getRenderState());
+
+      if (result && result.destination && result.destination.droppableId === 'headers' && result.source && result.source.droppableId === result.destination.droppableId && _this.props.onChangeColumnOrder) {
+        _this.props.onChangeColumnOrder(_this.state.columns.sort(function (a, b) {
+          return a.tableData.columnOrder > b.tableData.columnOrder ? 1 : -1;
+        }));
+      }
     });
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "onGroupExpandChanged", function (path) {
       _this.dataManager.changeGroupExpand(path);
