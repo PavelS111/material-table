@@ -161,7 +161,9 @@ export const propTypes = {
   onChangePage: PropTypes.func,
   onOrderChange: PropTypes.func,
   onRowClick: PropTypes.func,
+  onChangeColumnHidden: PropTypes.func,
   onTreeExpandChange: PropTypes.func,
   tableRef: PropTypes.any,
-  style: PropTypes.object
+  style: PropTypes.object,
+  onChangeColumnOrder: PropTypes.func
 };
