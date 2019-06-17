@@ -60,13 +60,13 @@ function (_React$Component) {
       var filterValue = (columnDef.tableData.filterValue || []).slice();
       var elementIndex = filterValue.indexOf(key);
 
-      if (elementIndex == -1) {
+      if (elementIndex === -1) {
         filterValue.push(key);
       } else {
         filterValue.splice(elementIndex, 1);
       }
 
-      if (filterValue.length == 0) filterValue = undefined;
+      if (filterValue.length === 0) filterValue = undefined;
 
       _this.props.onFilterChanged(columnDef.tableData.id, filterValue);
     });
@@ -85,7 +85,7 @@ function (_React$Component) {
       var filterValue = columnDef.tableData.filterValue; //if both value are undef => filterValue = undef
 
       if (!value && filterValue && !filterValue[Math.abs(index - 1)]) filterValue = undefined;else {
-        if (filterValue == undefined) filterValue = [undefined, undefined];
+        if (filterValue === undefined) filterValue = [undefined, undefined];
         filterValue[index] = value;
       }
 
@@ -214,6 +214,26 @@ function (_React$Component) {
   }
 
   (0, _createClass2["default"])(MTableFilterButton, [{
+    key: "getFilterTitle",
+    value: function getFilterTitle() {
+      var columnDef = this.props.columnDef;
+
+      if (columnDef.field || columnDef.customFilterAndSearch) {
+        if (columnDef.lookup) {
+          var lookupResult = Object.keys(columnDef.lookup).filter(function (key) {
+            return columnDef.tableData.filterValue && columnDef.tableData.filterValue.indexOf(key.toString()) > -1;
+          }).map(function (key) {
+            return columnDef.lookup[key];
+          }).join(', ');
+          return lookupResult;
+        }
+
+        return columnDef.tableData.filterValue;
+      }
+
+      return null;
+    }
+  }, {
     key: "renderFilterBody",
     value: function renderFilterBody(columnDef) {
       if (columnDef.field || columnDef.customFilterAndSearch) {
@@ -240,9 +260,11 @@ function (_React$Component) {
       var columnDef = this.props.columnDef;
       if (columnDef.filtering === false) return null;
       var classes = this.props.classes;
-      var popoverOpened = this.state.anchorEl != null;
+      var popoverOpened = this.state.anchorEl !== null;
       var iconColor = "rgba(0, 0, 0, ".concat(columnDef.tableData.filterValue ? '1' : '0.2', ")");
-      return React.createElement(React.Fragment, null, React.createElement(this.props.icons.Filter, {
+      return React.createElement("span", {
+        title: this.getFilterTitle()
+      }, React.createElement(this.props.icons.Filter, {
         style: {
           color: iconColor
         },

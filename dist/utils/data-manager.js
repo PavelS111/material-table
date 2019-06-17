@@ -160,7 +160,7 @@ function () {
               _this.filteredData = _this.filteredData.filter(function (row) {
                 var value = _this.getFieldValue(row, columnDef, false);
 
-                return !tableData.filterValue || tableData.filterValue.length === 0 || tableData.filterValue.indexOf(value !== undefined && value.toString()) > -1;
+                return !tableData.filterValue || tableData.filterValue.length === 0 || tableData.filterValue.indexOf(value !== undefined && value !== null && value.toString()) > -1;
               });
             } else if (type === 'numeric') {
               _this.filteredData = _this.filteredData.filter(function (row) {

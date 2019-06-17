@@ -94,7 +94,7 @@ function (_React$Component) {
           }, content);
         }
 
-        if (_this.props.filtering && _this.props.filterType == 'header') {
+        if (_this.props.filtering && _this.props.filterType === 'header') {
           content = React.createElement(React.Fragment, null, ['numeric'].indexOf(columnDef.type) === -1 && content, React.createElement(_this.props.components.FilterButton, {
             icons: _this.props.icons,
             columnDef: columnDef,
