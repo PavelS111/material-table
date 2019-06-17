@@ -66,7 +66,7 @@ export class MTableHeader extends React.Component {
           );
         }
 
-        if (this.props.filtering && this.props.filterType == 'header') {
+        if (this.props.filtering && this.props.filterType === 'header') {
           content = (
             <>
               {['numeric'].indexOf(columnDef.type) === -1  && content}
