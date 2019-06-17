@@ -30,12 +30,12 @@ class MTableFilterButton extends React.Component {
     handleLookupCheckboxToggle = (columnDef, key) => {
         let filterValue = (columnDef.tableData.filterValue || []).slice();
         const elementIndex = filterValue.indexOf(key);
-        if (elementIndex == -1) {
+        if (elementIndex === -1) {
             filterValue.push(key);
         } else {
             filterValue.splice(elementIndex, 1);
         }
-        if (filterValue.length == 0) filterValue = undefined;
+        if (filterValue.length === 0) filterValue = undefined;
         this.props.onFilterChanged(columnDef.tableData.id, filterValue);
     }
     handleCheckboxToggle = (columnDef) => {
@@ -52,10 +52,26 @@ class MTableFilterButton extends React.Component {
         //if both value are undef => filterValue = undef
         if (!value && filterValue && !filterValue[Math.abs(index - 1)]) filterValue = undefined;
         else {
-            if (filterValue == undefined) filterValue = [undefined, undefined];
+            if (filterValue === undefined) filterValue = [undefined, undefined];
             filterValue[index] = value;
         }
         this.props.onFilterChanged(columnDef.tableData.id, filterValue);
+    }
+    getFilterTitle() {
+        const columnDef = this.props.columnDef;
+
+        if (columnDef.field || columnDef.customFilterAndSearch) {
+            if (columnDef.lookup) {
+                const lookupResult = Object.keys(columnDef.lookup)
+                    .filter(key => 
+                        columnDef.tableData.filterValue && columnDef.tableData.filterValue.indexOf(key.toString()) > -1)
+                    .map(key => columnDef.lookup[key])
+                    .join(', ');
+                return lookupResult;
+            }
+            return columnDef.tableData.filterValue;
+        }
+        return null;
     }
     renderFilterBody(columnDef) {
         if (columnDef.field || columnDef.customFilterAndSearch) {
@@ -200,10 +216,10 @@ class MTableFilterButton extends React.Component {
         const columnDef = this.props.columnDef;
         if (columnDef.filtering === false) return null;
         const { classes } = this.props;
-        const popoverOpened = this.state.anchorEl != null;
+        const popoverOpened = this.state.anchorEl !== null;
         const iconColor = `rgba(0, 0, 0, ${columnDef.tableData.filterValue ? '1' : '0.2'})`;
         return (
-            <>
+            <span title={this.getFilterTitle()}>
                 <this.props.icons.Filter
                     style={{ color: iconColor }}
                     className={classes.filterIcon}
@@ -230,7 +246,7 @@ class MTableFilterButton extends React.Component {
                         {this.renderFilterBody(columnDef)}
                     </div>
                 </Popover>
-            </>);
+            </span>);
     }
 }
 
