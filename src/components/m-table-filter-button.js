@@ -94,7 +94,9 @@ class MTableFilterButton extends React.Component {
         return (
             <FormControl style={{ width: '100%' }}>
                 <List className={classes.filterList}>
-                    {Object.keys(columnDef.lookup).map(key => (
+                    {Object.keys(columnDef.lookup)
+                        .sort((k1, k2) => (`${columnDef.lookup[k1]}`.localeCompare(`${columnDef.lookup[k2]}`)))
+                        .map(key => (
                         <ListItem
                             className={classes.filterListItem}
                             key={key} role={undefined} dense button
