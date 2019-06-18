@@ -104,7 +104,8 @@ export default class DataManager {
   }
 
   changeFilterValue(columnId, value) {
-    this.columns[columnId].tableData.filterValue = value;
+    const finded = this.columns.find(column => column.tableData.id === columnId);
+    finded.tableData.filterValue = value;
     this.filtered = false;
   }
 
@@ -282,26 +283,34 @@ export default class DataManager {
     }
     else if (result.destination.droppableId === "headers" && result.source.droppableId === "headers") {
       start = Math.min(result.destination.index, result.source.index);
-      const end = Math.max(result.destination.index, result.source.index);
+      // const end = Math.max(result.destination.index, result.source.index);
 
-      const colsToMov = this.columns
+      const visibleColumns = this.columns
         .sort((a, b) => a.tableData.columnOrder - b.tableData.columnOrder)
-        .filter(column => column.tableData.groupOrder === undefined)
-        .slice(start, end + 1);
+        .filter(column => column.tableData.groupOrder === undefined && !column.hidden);
 
       if (result.destination.index < result.source.index) {
-        // Take last and add as first
-        const last = colsToMov.pop();
-        colsToMov.unshift(last);
+        const colsToMov = [visibleColumns[result.source.index], visibleColumns[result.destination.index]];
+
+        const startIndex = this.columns.indexOf(colsToMov[1]);
+        colsToMov[0].tableData.columnOrder = startIndex;
+        let addon = 1;
+        for (let i = startIndex; i < this.columns.length; i++) {
+          if (this.columns[i] !== colsToMov[0]) {
+            this.columns[i].tableData.columnOrder = i + addon;
+          } else {
+            addon = 0;
+          }
+        }
       }
       else {
-        // Take first and add as last
-        const last = colsToMov.shift();
-        colsToMov.push(last);
-      }
-
-      for (let i = 0; i < colsToMov.length; i++) {
-        colsToMov[i].tableData.columnOrder = start + i;
+        const colsToMov = [visibleColumns[result.destination.index], visibleColumns[result.source.index]];
+        const startIndex = this.columns.indexOf(colsToMov[1]);
+        const moveToIndex = this.columns.indexOf(colsToMov[0]);
+        this.columns[startIndex].tableData.columnOrder = moveToIndex;
+        for (let i = moveToIndex; i > startIndex; i--) {
+          this.columns[i].tableData.columnOrder = i - 1;
+        }
       }
 
       return;
