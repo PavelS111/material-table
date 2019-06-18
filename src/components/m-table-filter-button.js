@@ -68,6 +68,19 @@ class MTableFilterButton extends React.Component {
                     .map(key => columnDef.lookup[key])
                     .join(', ');
                 return lookupResult;
+            } else if(columnDef.tableData.filterValue) {
+                if (columnDef.type === 'numeric') {
+                    const isEmpty = (val) => {
+                        return val === undefined || val === null || val === '';
+                    };
+                    if (isEmpty(columnDef.tableData.filterValue[0])) {
+                        return `[..., ${columnDef.tableData.filterValue[1]}]`;
+                    } else if (isEmpty(columnDef.tableData.filterValue[1])) {
+                        return `[${columnDef.tableData.filterValue[0]}, ...]`;
+                    } else {
+                        return `[${columnDef.tableData.filterValue[0]}, ${columnDef.tableData.filterValue[1]}]`;
+                    }
+                }
             }
             return columnDef.tableData.filterValue;
         }
@@ -138,20 +151,23 @@ class MTableFilterButton extends React.Component {
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
-                                <>С:</>
+                                [
                             </InputAdornment>
                         )
                     }}
                 />
+                <span style={{display: 'inline-block', verticalAlign: 'bottom'}}>
+                ,
+                </span>
                 <TextField
                     type='number'
                     className={classes.filterNumericTo}
                     value={(columnDef.tableData.filterValue && columnDef.tableData.filterValue[1]) || ''}
                     onChange={(event) => this.handleFilterNumericChange(columnDef, event.target.value, 1)}
                     InputProps={{
-                        startAdornment: (
+                        endAdornment: (
                             <InputAdornment position="start">
-                                <>По:</>
+                                ]
                             </InputAdornment>
                         )
                     }}
