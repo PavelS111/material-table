@@ -145,9 +145,14 @@ function (_React$Component) {
         InputProps: {
           startAdornment: React.createElement(_core.InputAdornment, {
             position: "start"
-          }, React.createElement(React.Fragment, null, "\u0421:"))
+          }, "[")
         }
-      }), React.createElement(_core.TextField, {
+      }), React.createElement("span", {
+        style: {
+          display: 'inline-block',
+          verticalAlign: 'bottom'
+        }
+      }, ","), React.createElement(_core.TextField, {
         type: "number",
         className: classes.filterNumericTo,
         value: columnDef.tableData.filterValue && columnDef.tableData.filterValue[1] || '',
@@ -155,9 +160,9 @@ function (_React$Component) {
           return _this.handleFilterNumericChange(columnDef, event.target.value, 1);
         },
         InputProps: {
-          startAdornment: React.createElement(_core.InputAdornment, {
+          endAdornment: React.createElement(_core.InputAdornment, {
             position: "start"
-          }, React.createElement(React.Fragment, null, "\u041F\u043E:"))
+          }, "]")
         }
       }));
     });
@@ -228,6 +233,20 @@ function (_React$Component) {
             return columnDef.lookup[key];
           }).join(', ');
           return lookupResult;
+        } else if (columnDef.tableData.filterValue) {
+          if (columnDef.type === 'numeric') {
+            var isEmpty = function isEmpty(val) {
+              return val === undefined || val === null || val === '';
+            };
+
+            if (isEmpty(columnDef.tableData.filterValue[0])) {
+              return "[..., ".concat(columnDef.tableData.filterValue[1], "]");
+            } else if (isEmpty(columnDef.tableData.filterValue[1])) {
+              return "[".concat(columnDef.tableData.filterValue[0], ", ...]");
+            } else {
+              return "[".concat(columnDef.tableData.filterValue[0], ", ").concat(columnDef.tableData.filterValue[1], "]");
+            }
+          }
         }
 
         return columnDef.tableData.filterValue;
