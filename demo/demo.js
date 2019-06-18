@@ -103,6 +103,7 @@ class App extends Component {
                   data={this.state.data}
                   title="Demo Title"
                   options={{
+                    columnsButton: true,
                     selection: true,
                     grouping: true,
                     filtering: true,
