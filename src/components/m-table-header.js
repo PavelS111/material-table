@@ -16,6 +16,7 @@ export class MTableHeader extends React.Component {
         let content = (
           <Draggable
             key={columnDef.tableData.id}
+            isDragDisabled={index < this.props.fixedColumns}
             draggableId={columnDef.tableData.id.toString()}
             index={index}>
             {(provided, snapshot) => (
@@ -79,11 +80,13 @@ export class MTableHeader extends React.Component {
           );
         }
 
+        const cellClassName = this.props.classes.header + (index < this.props.fixedColumns ? ' cell-fixed' : '');
+
         return (
           <TableCell
             key={columnDef.tableData.id}
             align={['numeric'].indexOf(columnDef.type) !== -1 ? "right" : "left"}
-            className={this.props.classes.header}
+            className={cellClassName}
             style={{ ...this.props.headerStyle, ...columnDef.headerStyle, whiteSpace: 'nowrap' }}
           >
             {content}
@@ -95,11 +98,14 @@ export class MTableHeader extends React.Component {
 
   renderActionsHeader() {
     const localization = { ...MTableHeader.defaultProps.localization, ...this.props.localization };
+    const cellClassName = this.props.classes.header
+      + (this.props.actionsHeaderIndex !== -1 && this.props.actionsHeaderIndex < this.props.fixedColumns ? ' cell-fixed' : '');
+
     return (
       <TableCell
         key="key-actions-column"
         padding="checkbox"
-        className={this.props.classes.header}
+        className={cellClassName}
         style={{ ...this.props.headerStyle, textAlign: 'center' }}
       >
         <TableSortLabel disabled>{localization.actions}</TableSortLabel>
@@ -107,11 +113,13 @@ export class MTableHeader extends React.Component {
     );
   }
   renderSelectionHeader() {
+    const cellClassName = this.props.classes.header + (this.props.fixedColumns ? ' cell-fixed' : '');
+
     return (
       <TableCell
         padding="none"
         key="key-selection-column"
-        className={this.props.classes.header}
+        className={cellClassName}
         style={{ ...this.props.headerStyle }}
       >
         {this.props.showSelectAllCheckbox &&
@@ -126,15 +134,19 @@ export class MTableHeader extends React.Component {
   }
 
   renderDetailPanelColumnCell() {
+    const cellClassName = this.props.classes.header
+      + (this.props.detailPanelColumnAlignment === 'left' ? ' cell-fixed' : '');
+
     return <TableCell
             padding="none"
             key="key-detail-panel-column"
-            className={this.props.classes.header}
+            className={cellClassName}
             style={{ ...this.props.headerStyle }}
           />;
   }
 
   render() {
+    const cellClassName = this.props.classes.header + (this.props.fixedColumns ? ' cell-fixed' : '');
     const headers = this.renderHeader();
     if (this.props.hasSelection) {
       headers.splice(0, 0, this.renderSelectionHeader());
@@ -165,7 +177,7 @@ export class MTableHeader extends React.Component {
         <TableCell
           padding="none"
           key={"key-tree-data-header"}
-          className={this.props.classes.header}
+          className={cellClassName}
           style={{ ...this.props.headerStyle }}
         />
       );
@@ -174,7 +186,7 @@ export class MTableHeader extends React.Component {
     this.props.columns
       .filter(columnDef => columnDef.tableData.groupOrder > -1)
       .forEach(columnDef => {
-        headers.splice(0, 0, <TableCell padding="checkbox" key={"key-group-header" + columnDef.tableData.id} className={this.props.classes.header} />);
+        headers.splice(0, 0, <TableCell padding="checkbox" key={"key-group-header" + columnDef.tableData.id} className={cellClassName} />);
       });
 
     return (
@@ -219,6 +231,7 @@ MTableHeader.propTypes = {
   actionsHeaderIndex: PropTypes.number,
   showActionsColumn: PropTypes.bool,
   showSelectAllCheckbox: PropTypes.bool,
+  fixedColumns: PropTypes.number
 };
 
 

@@ -14,6 +14,7 @@ export default class MTableBodyRow extends React.Component {
         return (
           <this.props.components.Cell
             icons={this.props.icons}
+            isFixed={index < this.props.options.fixedColumns}
             columnDef={columnDef}
             value={value}
             key={"cell-" + this.props.data.tableData.di + "-" + columnDef.tableData.id}
@@ -26,8 +27,10 @@ export default class MTableBodyRow extends React.Component {
 
   renderActions() {
     const actions = this.props.actions.filter(a => !a.isFreeAction && !this.props.options.selection);
+    const cellClassName = this.props.options.fixedColumns ? 'cell-fixed' : '';
+
     return (
-      <TableCell padding="none" key="key-actions-column" style={{ width: 42 * actions.length, padding: '0px 5px', ...this.props.options.actionsCellStyle }}>
+      <TableCell padding="none" key="key-actions-column" style={{ width: 42 * actions.length, padding: '0px 5px', ...this.props.options.actionsCellStyle }} className={cellClassName}>
         <div style={{ display: 'flex' }}>
           <this.props.components.Actions data={this.props.data} actions={actions} components={this.props.components} />
         </div>
@@ -39,10 +42,11 @@ export default class MTableBodyRow extends React.Component {
     if(typeof checkboxProps === 'function') {
       checkboxProps = checkboxProps(this.props.data);
     }
+    const cellClassName = this.props.options.fixedColumns ? 'cell-fixed' : '';
 
     return (
-      <TableCell padding="none" key="key-selection-column" style={{ width: 42 + 9 * (this.props.treeDataMaxLevel - 1) }}>
-        <Checkbox        
+      <TableCell padding="none" key="key-selection-column" style={{ width: 42 + 9 * (this.props.treeDataMaxLevel - 1) }} className={cellClassName}>
+        <Checkbox
           checked={this.props.data.tableData.checked === true}
           onClick={(e) => e.stopPropagation()}
           value={this.props.data.tableData.id.toString()}
@@ -63,10 +67,13 @@ export default class MTableBodyRow extends React.Component {
   renderDetailPanelColumn() {
 
     const CustomIcon = ({ icon, style }) => typeof icon === "string" ? <Icon style={style}>{icon}</Icon> : React.createElement(icon, { style });
+    const cellClassName = this.props.options.detailPanelColumnAlignment === 'left' && this.props.options.fixedColumns
+      ? 'cell-fixed'
+      : '';
 
     if (typeof this.props.detailPanel == 'function') {
       return (
-        <TableCell padding="none" key="key-detail-panel-column" style={{ width: 42, textAlign: 'center' }}>
+        <TableCell padding="none" key="key-detail-panel-column" style={{ width: 42, textAlign: 'center' }} className={cellClassName}>
           <IconButton
             style={{ transition: 'all ease 200ms', ...this.rotateIconStyle(this.props.data.tableData.showDetailPanel) }}
             onClick={(event) => {
@@ -162,6 +169,7 @@ export default class MTableBodyRow extends React.Component {
   }
 
   render() {
+    const cellClassName = this.props.options.fixedColumns ? 'cell-fixed' : '';
     const renderColumns = this.renderColumns();
     if (this.props.options.selection) {
       renderColumns.splice(0, 0, this.renderSelectionColumn());
@@ -181,7 +189,7 @@ export default class MTableBodyRow extends React.Component {
     if (this.props.isTreeData) {
       if (this.props.data.tableData.childRows && this.props.data.tableData.childRows.length > 0) {
         renderColumns.splice(0, 0, (
-          <TableCell padding="none" key={"key-tree-data-column"} style={{ width: 48 + 9 * (this.props.treeDataMaxLevel - 2) }}>
+          <TableCell padding="none" key={"key-tree-data-column"} style={{ width: 48 + 9 * (this.props.treeDataMaxLevel - 2) }} className={cellClassName}>
             <IconButton
               style={{
                 transition: 'all ease 200ms',
@@ -199,7 +207,7 @@ export default class MTableBodyRow extends React.Component {
         ));
       }
       else {
-        renderColumns.splice(0, 0, <TableCell padding="none" key={"key-tree-data-column"} />);
+        renderColumns.splice(0, 0, <TableCell padding="none" key={"key-tree-data-column"} className={cellClassName}/>);
       }
     }
 
@@ -215,7 +223,7 @@ export default class MTableBodyRow extends React.Component {
     this.props.columns
       .filter(columnDef => columnDef.tableData.groupOrder > -1)
       .forEach(columnDef => {
-        renderColumns.splice(0, 0, <TableCell padding="none" key={"key-group-cell" + columnDef.tableData.id} />);
+        renderColumns.splice(0, 0, <TableCell padding="none" key={"key-group-cell" + columnDef.tableData.id} className={cellClassName} />);
       });
 
     const {
