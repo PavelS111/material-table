@@ -99,7 +99,9 @@ function (_React$Component) {
         }
       }, React.createElement(_core.List, {
         className: classes.filterList
-      }, Object.keys(columnDef.lookup).map(function (key) {
+      }, Object.keys(columnDef.lookup).sort(function (k1, k2) {
+        return "".concat(columnDef.lookup[k1]).localeCompare("".concat(columnDef.lookup[k2]));
+      }).map(function (key) {
         return React.createElement(_core.ListItem, {
           className: classes.filterListItem,
           key: key,
