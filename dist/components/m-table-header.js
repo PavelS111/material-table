@@ -95,11 +95,11 @@ function (_React$Component) {
         }
 
         if (_this.props.filtering && _this.props.filterType === 'header') {
-          content = React.createElement(React.Fragment, null, ['numeric'].indexOf(columnDef.type) === -1 && content, React.createElement(_this.props.components.FilterButton, {
+          content = React.createElement(React.Fragment, null, content, React.createElement(_this.props.components.FilterButton, {
             icons: _this.props.icons,
             columnDef: columnDef,
             onFilterChanged: _this.props.onFilterChanged
-          }), ['numeric'].indexOf(columnDef.type) !== -1 && content);
+          }));
         }
 
         return React.createElement(_core.TableCell, {
