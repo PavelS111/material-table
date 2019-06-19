@@ -49,6 +49,12 @@ var styles = function styles(theme) {
     },
     paginationSelectRoot: {
       margin: 0
+    },
+    '@global': {
+      '.MuiTableCell-body.cell-fixed': {
+        backgroundColor: theme.palette.background.paper,
+        position: 'relative'
+      }
     }
   };
 };

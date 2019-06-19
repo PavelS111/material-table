@@ -56,6 +56,7 @@ function (_React$Component) {
       }).map(function (columnDef, index) {
         var content = React.createElement(_reactBeautifulDnd.Draggable, {
           key: columnDef.tableData.id,
+          isDragDisabled: index < _this.props.fixedColumns,
           draggableId: columnDef.tableData.id.toString(),
           index: index
         }, function (provided, snapshot) {
@@ -102,10 +103,11 @@ function (_React$Component) {
           }));
         }
 
+        var cellClassName = _this.props.classes.header + (index < _this.props.fixedColumns ? ' cell-fixed' : '');
         return React.createElement(_core.TableCell, {
           key: columnDef.tableData.id,
           align: ['numeric'].indexOf(columnDef.type) !== -1 ? "right" : "left",
-          className: _this.props.classes.header,
+          className: cellClassName,
           style: (0, _objectSpread2["default"])({}, _this.props.headerStyle, columnDef.headerStyle, {
             whiteSpace: 'nowrap'
           })
@@ -117,10 +119,11 @@ function (_React$Component) {
     key: "renderActionsHeader",
     value: function renderActionsHeader() {
       var localization = (0, _objectSpread2["default"])({}, MTableHeader.defaultProps.localization, this.props.localization);
+      var cellClassName = this.props.classes.header + (this.props.actionsHeaderIndex !== -1 && this.props.actionsHeaderIndex < this.props.fixedColumns ? ' cell-fixed' : '');
       return React.createElement(_core.TableCell, {
         key: "key-actions-column",
         padding: "checkbox",
-        className: this.props.classes.header,
+        className: cellClassName,
         style: (0, _objectSpread2["default"])({}, this.props.headerStyle, {
           textAlign: 'center'
         })
@@ -133,10 +136,11 @@ function (_React$Component) {
     value: function renderSelectionHeader() {
       var _this2 = this;
 
+      var cellClassName = this.props.classes.header + (this.props.fixedColumns ? ' cell-fixed' : '');
       return React.createElement(_core.TableCell, {
         padding: "none",
         key: "key-selection-column",
-        className: this.props.classes.header,
+        className: cellClassName,
         style: (0, _objectSpread2["default"])({}, this.props.headerStyle)
       }, this.props.showSelectAllCheckbox && React.createElement(_core.Checkbox, {
         indeterminate: this.props.selectedCount > 0 && this.props.selectedCount < this.props.dataCount,
@@ -149,18 +153,18 @@ function (_React$Component) {
   }, {
     key: "renderDetailPanelColumnCell",
     value: function renderDetailPanelColumnCell() {
+      var cellClassName = this.props.classes.header + (this.props.detailPanelColumnAlignment === 'left' ? ' cell-fixed' : '');
       return React.createElement(_core.TableCell, {
         padding: "none",
         key: "key-detail-panel-column",
-        className: this.props.classes.header,
+        className: cellClassName,
         style: (0, _objectSpread2["default"])({}, this.props.headerStyle)
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
-
+      var cellClassName = this.props.classes.header + (this.props.fixedColumns ? ' cell-fixed' : '');
       var headers = this.renderHeader();
 
       if (this.props.hasSelection) {
@@ -193,7 +197,7 @@ function (_React$Component) {
         headers.splice(0, 0, React.createElement(_core.TableCell, {
           padding: "none",
           key: "key-tree-data-header",
-          className: this.props.classes.header,
+          className: cellClassName,
           style: (0, _objectSpread2["default"])({}, this.props.headerStyle)
         }));
       }
@@ -204,7 +208,7 @@ function (_React$Component) {
         headers.splice(0, 0, React.createElement(_core.TableCell, {
           padding: "checkbox",
           key: "key-group-header" + columnDef.tableData.id,
-          className: _this3.props.classes.header
+          className: cellClassName
         }));
       });
       return React.createElement(_core.TableHead, null, React.createElement(_core.TableRow, null, headers));
@@ -244,7 +248,8 @@ MTableHeader.propTypes = {
   orderDirection: _propTypes["default"].string,
   actionsHeaderIndex: _propTypes["default"].number,
   showActionsColumn: _propTypes["default"].bool,
-  showSelectAllCheckbox: _propTypes["default"].bool
+  showSelectAllCheckbox: _propTypes["default"].bool,
+  fixedColumns: _propTypes["default"].number
 };
 
 var styles = function styles(theme) {

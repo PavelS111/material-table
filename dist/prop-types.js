@@ -127,6 +127,7 @@ var propTypes = {
     filtering: _propTypes["default"].bool,
     filterType: _propTypes["default"].oneOf(['row', 'header']),
     filterCellStyle: _propTypes["default"].object,
+    fixedColumns: _propTypes["default"].number,
     header: _propTypes["default"].bool,
     headerStyle: _propTypes["default"].object,
     initialPage: _propTypes["default"].number,

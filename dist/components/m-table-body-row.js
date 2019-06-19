@@ -79,6 +79,7 @@ function (_React$Component) {
 
         return React.createElement(_this2.props.components.Cell, {
           icons: _this2.props.icons,
+          isFixed: index < _this2.props.options.fixedColumns,
           columnDef: columnDef,
           value: value,
           key: "cell-" + _this2.props.data.tableData.di + "-" + columnDef.tableData.id,
@@ -95,13 +96,15 @@ function (_React$Component) {
       var actions = this.props.actions.filter(function (a) {
         return !a.isFreeAction && !_this3.props.options.selection;
       });
+      var cellClassName = this.props.options.fixedColumns ? 'cell-fixed' : '';
       return React.createElement(_core.TableCell, {
         padding: "none",
         key: "key-actions-column",
         style: (0, _objectSpread2["default"])({
           width: 42 * actions.length,
           padding: '0px 5px'
-        }, this.props.options.actionsCellStyle)
+        }, this.props.options.actionsCellStyle),
+        className: cellClassName
       }, React.createElement("div", {
         style: {
           display: 'flex'
@@ -123,12 +126,14 @@ function (_React$Component) {
         checkboxProps = checkboxProps(this.props.data);
       }
 
+      var cellClassName = this.props.options.fixedColumns ? 'cell-fixed' : '';
       return React.createElement(_core.TableCell, {
         padding: "none",
         key: "key-selection-column",
         style: {
           width: 42 + 9 * (this.props.treeDataMaxLevel - 1)
-        }
+        },
+        className: cellClassName
       }, React.createElement(_core.Checkbox, (0, _extends2["default"])({
         checked: this.props.data.tableData.checked === true,
         onClick: function onClick(e) {
@@ -158,6 +163,8 @@ function (_React$Component) {
         });
       };
 
+      var cellClassName = this.props.options.detailPanelColumnAlignment === 'left' && this.props.options.fixedColumns ? 'cell-fixed' : '';
+
       if (typeof this.props.detailPanel == 'function') {
         return React.createElement(_core.TableCell, {
           padding: "none",
@@ -165,7 +172,8 @@ function (_React$Component) {
           style: {
             width: 42,
             textAlign: 'center'
-          }
+          },
+          className: cellClassName
         }, React.createElement(_core.IconButton, {
           style: (0, _objectSpread2["default"])({
             transition: 'all ease 200ms'
@@ -265,6 +273,7 @@ function (_React$Component) {
     value: function render() {
       var _this6 = this;
 
+      var cellClassName = this.props.options.fixedColumns ? 'cell-fixed' : '';
       var renderColumns = this.renderColumns();
 
       if (this.props.options.selection) {
@@ -294,7 +303,8 @@ function (_React$Component) {
             key: "key-tree-data-column",
             style: {
               width: 48 + 9 * (this.props.treeDataMaxLevel - 2)
-            }
+            },
+            className: cellClassName
           }, React.createElement(_core.IconButton, {
             style: (0, _objectSpread2["default"])({
               transition: 'all ease 200ms',
@@ -309,7 +319,8 @@ function (_React$Component) {
         } else {
           renderColumns.splice(0, 0, React.createElement(_core.TableCell, {
             padding: "none",
-            key: "key-tree-data-column"
+            key: "key-tree-data-column",
+            className: cellClassName
           }));
         }
       } // Lastly we add detail panel icon
@@ -328,7 +339,8 @@ function (_React$Component) {
       }).forEach(function (columnDef) {
         renderColumns.splice(0, 0, React.createElement(_core.TableCell, {
           padding: "none",
-          key: "key-group-cell" + columnDef.tableData.id
+          key: "key-group-cell" + columnDef.tableData.id,
+          className: cellClassName
         }));
       });
       var _this$props = this.props,

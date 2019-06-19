@@ -191,21 +191,27 @@ function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
+      var cellClassName = function cellClassName(index) {
+        return index < _this3.props.fixedColumns ? 'cell-fixed' : '';
+      };
+
       var columns = this.props.columns.filter(function (columnDef) {
         return !columnDef.hidden && !(columnDef.tableData.groupOrder > -1);
       }).sort(function (a, b) {
         return a.tableData.columnOrder - b.tableData.columnOrder;
-      }).map(function (columnDef) {
+      }).map(function (columnDef, index) {
         return React.createElement(_core.TableCell, {
           key: columnDef.tableData.id,
-          style: (0, _objectSpread2["default"])({}, _this3.props.filterCellStyle, columnDef.filterCellStyle)
+          style: (0, _objectSpread2["default"])({}, _this3.props.filterCellStyle, columnDef.filterCellStyle),
+          className: cellClassName(index)
         }, _this3.getComponentForColumn(columnDef));
       });
 
       if (this.props.selection) {
         columns.splice(0, 0, React.createElement(_core.TableCell, {
           padding: "none",
-          key: "key-selection-column"
+          key: "key-selection-column",
+          className: cellClassName(0)
         }));
       }
 
@@ -222,7 +228,8 @@ function (_React$Component) {
           }
 
           columns.splice(this.props.actionsColumnIndex + endPos, 0, React.createElement(_core.TableCell, {
-            key: "key-action-column"
+            key: "key-action-column",
+            className: cellClassName(this.props.actionsColumnIndex + endPos)
           }));
         }
       }
@@ -230,7 +237,8 @@ function (_React$Component) {
       if (this.props.hasDetailPanel) {
         columns.splice(0, 0, React.createElement(_core.TableCell, {
           padding: "none",
-          key: "key-detail-panel-column"
+          key: "key-detail-panel-column",
+          className: cellClassName(0)
         }));
       }
 
@@ -246,7 +254,8 @@ function (_React$Component) {
       }).forEach(function (columnDef) {
         columns.splice(0, 0, React.createElement(_core.TableCell, {
           padding: "checkbox",
-          key: "key-group-filter" + columnDef.tableData.id
+          key: "key-group-filter" + columnDef.tableData.id,
+          className: cellClassName(0)
         }));
       });
       return React.createElement(_core.TableRow, {
@@ -278,7 +287,8 @@ MTableFilterRow.propTypes = {
   selection: _propTypes["default"].bool.isRequired,
   actionsColumnIndex: _propTypes["default"].number,
   hasActions: _propTypes["default"].bool,
-  localization: _propTypes["default"].object
+  localization: _propTypes["default"].object,
+  fixedColumns: _propTypes["default"].number
 };
 var _default = MTableFilterRow;
 exports["default"] = _default;

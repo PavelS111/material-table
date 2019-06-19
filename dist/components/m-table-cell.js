@@ -164,8 +164,10 @@ function (_React$Component) {
           icons = _this$props.icons,
           columnDef = _this$props.columnDef,
           rowData = _this$props.rowData,
-          cellProps = (0, _objectWithoutProperties2["default"])(_this$props, ["icons", "columnDef", "rowData"]);
+          isFixed = _this$props.isFixed,
+          cellProps = (0, _objectWithoutProperties2["default"])(_this$props, ["icons", "columnDef", "rowData", "isFixed"]);
       return React.createElement(_core.TableCell, (0, _extends2["default"])({}, cellProps, {
+        className: isFixed ? 'cell-fixed' : '',
         style: this.getStyle(),
         align: ['numeric'].indexOf(this.props.columnDef.type) !== -1 ? "right" : "left",
         onClick: this.handleClickCell
@@ -183,5 +185,6 @@ MTableCell.defaultProps = {
 MTableCell.propTypes = {
   columnDef: _propTypes["default"].object.isRequired,
   value: _propTypes["default"].any,
-  rowData: _propTypes["default"].object
+  rowData: _propTypes["default"].object,
+  isFixed: _propTypes["default"].bool
 };

@@ -141,6 +141,10 @@ function (_React$Component) {
       }
     });
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "onDragEnd", function (result) {
+      if (result && result.destination && result.destination.index < _this.props.options.fixedColumns && result.destination.droppableId === "headers") {
+        return;
+      }
+
       _this.dataManager.changeByDrag(result);
 
       _this.setState(_this.dataManager.getRenderState());
@@ -351,6 +355,11 @@ function (_React$Component) {
 
       _this.setState(_this.dataManager.getRenderState());
     });
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "onHorizontalScroll", function (scrollX) {
+      _this.setState({
+        scrollX: scrollX
+      });
+    });
 
     var calculatedProps = _this.getProps(_props);
 
@@ -380,6 +389,7 @@ function (_React$Component) {
         search: renderState.searchText,
         totalCount: 0
       },
+      scrollX: 0,
       showAddRow: false
     });
     return _this;
@@ -557,9 +567,72 @@ function (_React$Component) {
       }
     }
   }, {
+    key: "renderTable",
+    value: function renderTable() {
+      var _this4 = this;
+
+      var props = this.getProps();
+      return React.createElement(_core.Table, {
+        className: props.options.fixedColumns ? "table-fixed-".concat(this.state.scrollX) : ''
+      }, props.options.header && React.createElement(props.components.Header, {
+        localization: (0, _objectSpread2["default"])({}, MaterialTable.defaultProps.localization.header, this.props.localization.header),
+        columns: this.state.columns,
+        hasSelection: props.options.selection,
+        headerStyle: props.options.headerStyle,
+        selectedCount: this.state.selectedCount,
+        dataCount: props.parentChildData ? this.state.treefiedDataLength : this.state.data.length,
+        hasDetailPanel: !!props.detailPanel,
+        detailPanelColumnAlignment: props.options.detailPanelColumnAlignment,
+        showActionsColumn: props.actions && props.actions.filter(function (a) {
+          return !a.isFreeAction && !_this4.props.options.selection;
+        }).length > 0,
+        showSelectAllCheckbox: props.options.showSelectAllCheckbox,
+        orderBy: this.state.orderBy,
+        orderDirection: this.state.orderDirection,
+        onAllSelected: this.onAllSelected,
+        onOrderChange: this.onChangeOrder,
+        actionsHeaderIndex: props.options.actionsColumnIndex,
+        sorting: props.options.sorting,
+        grouping: props.options.grouping,
+        filtering: props.options.filtering,
+        filterType: props.options.filterType,
+        isTreeData: this.props.parentChildData !== undefined,
+        icons: this.props.icons,
+        onFilterChanged: this.onFilterChange,
+        components: props.components,
+        fixedColumns: props.options.fixedColumns
+      }), React.createElement(props.components.Body, {
+        actions: props.actions,
+        components: props.components,
+        icons: props.icons,
+        renderData: this.state.renderData,
+        currentPage: this.state.currentPage,
+        initialFormData: props.initialFormData,
+        pageSize: this.state.pageSize,
+        columns: this.state.columns,
+        detailPanel: props.detailPanel,
+        options: props.options,
+        getFieldValue: this.dataManager.getFieldValue,
+        isTreeData: this.props.parentChildData !== undefined,
+        onFilterChanged: this.onFilterChange,
+        onRowSelected: this.onRowSelected,
+        onToggleDetailPanel: this.onToggleDetailPanel,
+        onGroupExpandChanged: this.onGroupExpandChanged,
+        onTreeExpandChanged: this.onTreeExpandChanged,
+        onEditingCanceled: this.onEditingCanceled,
+        onEditingApproved: this.onEditingApproved,
+        localization: (0, _objectSpread2["default"])({}, MaterialTable.defaultProps.localization.body, this.props.localization.body),
+        onRowClick: this.props.onRowClick,
+        showAddRow: this.state.showAddRow,
+        hasAnyEditingRow: !!(this.state.lastEditingRow || this.state.showAddRow),
+        hasDetailPanel: !!props.detailPanel,
+        treeDataMaxLevel: this.state.treeDataMaxLevel
+      }));
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       var props = this.getProps();
       return React.createElement(_reactBeautifulDnd.DragDropContext, {
@@ -607,7 +680,8 @@ function (_React$Component) {
         onSortChanged: this.onChangeGroupOrder,
         onGroupRemoved: this.onGroupRemoved
       }), React.createElement(ScrollBar, {
-        "double": props.options.doubleHorizontalScroll
+        "double": props.options.doubleHorizontalScroll,
+        onHorizontalScroll: this.onHorizontalScroll
       }, React.createElement(_reactBeautifulDnd.Droppable, {
         droppableId: "headers",
         direction: "horizontal"
@@ -619,59 +693,7 @@ function (_React$Component) {
             maxHeight: props.options.maxBodyHeight,
             overflowY: 'auto'
           }
-        }, React.createElement(_core.Table, null, props.options.header && React.createElement(props.components.Header, {
-          localization: (0, _objectSpread2["default"])({}, MaterialTable.defaultProps.localization.header, _this4.props.localization.header),
-          columns: _this4.state.columns,
-          hasSelection: props.options.selection,
-          headerStyle: props.options.headerStyle,
-          selectedCount: _this4.state.selectedCount,
-          dataCount: props.parentChildData ? _this4.state.treefiedDataLength : _this4.state.data.length,
-          hasDetailPanel: !!props.detailPanel,
-          detailPanelColumnAlignment: props.options.detailPanelColumnAlignment,
-          showActionsColumn: props.actions && props.actions.filter(function (a) {
-            return !a.isFreeAction && !_this4.props.options.selection;
-          }).length > 0,
-          showSelectAllCheckbox: props.options.showSelectAllCheckbox,
-          orderBy: _this4.state.orderBy,
-          orderDirection: _this4.state.orderDirection,
-          onAllSelected: _this4.onAllSelected,
-          onOrderChange: _this4.onChangeOrder,
-          actionsHeaderIndex: props.options.actionsColumnIndex,
-          sorting: props.options.sorting,
-          grouping: props.options.grouping,
-          filtering: props.options.filtering,
-          filterType: props.options.filterType,
-          isTreeData: _this4.props.parentChildData !== undefined,
-          icons: _this4.props.icons,
-          onFilterChanged: _this4.onFilterChange,
-          components: props.components
-        }), React.createElement(props.components.Body, {
-          actions: props.actions,
-          components: props.components,
-          icons: props.icons,
-          renderData: _this4.state.renderData,
-          currentPage: _this4.state.currentPage,
-          initialFormData: props.initialFormData,
-          pageSize: _this4.state.pageSize,
-          columns: _this4.state.columns,
-          detailPanel: props.detailPanel,
-          options: props.options,
-          getFieldValue: _this4.dataManager.getFieldValue,
-          isTreeData: _this4.props.parentChildData !== undefined,
-          onFilterChanged: _this4.onFilterChange,
-          onRowSelected: _this4.onRowSelected,
-          onToggleDetailPanel: _this4.onToggleDetailPanel,
-          onGroupExpandChanged: _this4.onGroupExpandChanged,
-          onTreeExpandChanged: _this4.onTreeExpandChanged,
-          onEditingCanceled: _this4.onEditingCanceled,
-          onEditingApproved: _this4.onEditingApproved,
-          localization: (0, _objectSpread2["default"])({}, MaterialTable.defaultProps.localization.body, _this4.props.localization.body),
-          onRowClick: _this4.props.onRowClick,
-          showAddRow: _this4.state.showAddRow,
-          hasAnyEditingRow: !!(_this4.state.lastEditingRow || _this4.state.showAddRow),
-          hasDetailPanel: !!props.detailPanel,
-          treeDataMaxLevel: _this4.state.treeDataMaxLevel
-        }))), provided.placeholder);
+        }, _this5.renderTable(false), React.createElement("style", null, ".table-fixed-".concat(_this5.state.scrollX, " .cell-fixed { transform: translateX(").concat(_this5.state.scrollX, "px); z-index: 11 }"))), provided.placeholder);
       })), (this.state.isLoading || props.isLoading) && props.options.loadingType === "linear" && React.createElement("div", {
         style: {
           position: 'relative',
@@ -706,14 +728,24 @@ exports["default"] = MaterialTable;
 
 var ScrollBar = function ScrollBar(_ref) {
   var _double = _ref["double"],
-      children = _ref.children;
+      children = _ref.children,
+      onHorizontalScroll = _ref.onHorizontalScroll;
+  var divRef = null;
+
+  var setRef = function setRef(ref) {
+    return divRef = ref && ref.children[0] && ref.children[0].children && ref.children[0].children[0];
+  };
 
   if (_double) {
     return React.createElement(_reactDoubleScrollbar["default"], null, children);
   } else {
     return React.createElement("div", {
+      ref: setRef,
       style: {
         overflowX: 'auto'
+      },
+      onScroll: function onScroll() {
+        return divRef && onHorizontalScroll(divRef.scrollLeft);
       }
     }, children);
   }

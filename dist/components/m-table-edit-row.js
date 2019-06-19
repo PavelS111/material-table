@@ -63,6 +63,10 @@ function (_React$Component) {
         var value = typeof _this2.state.data[columnDef.field] !== 'undefined' ? _this2.state.data[columnDef.field] : (0, _utils.byString)(_this2.state.data, columnDef.field);
         var style = {};
 
+        var cellClassName = function cellClassName(index) {
+          return index < _this2.props.options.fixedColumns ? 'cell-fixed' : '';
+        };
+
         if (index === 0) {
           style.paddingLeft = 24 + _this2.props.level * 20;
         }
@@ -91,7 +95,8 @@ function (_React$Component) {
             columnDef: columnDef,
             value: value,
             key: columnDef.tableData.id,
-            rowData: _this2.props.data
+            rowData: _this2.props.data,
+            isFixed: index < _this2.props.options.fixedColumns
           });
         } else {
           var editComponent = columnDef.editComponent,
@@ -99,7 +104,8 @@ function (_React$Component) {
           var EditComponent = editComponent || _this2.props.components.EditField;
           return React.createElement(_core.TableCell, {
             key: columnDef.tableData.id,
-            align: ['numeric'].indexOf(columnDef.type) !== -1 ? "right" : "left"
+            align: ['numeric'].indexOf(columnDef.type) !== -1 ? "right" : "left",
+            className: cellClassName(index)
           }, React.createElement(EditComponent, {
             key: columnDef.tableData.id,
             columnDef: cellProps,
@@ -145,13 +151,15 @@ function (_React$Component) {
           _this3.props.onEditingCanceled(_this3.props.mode, _this3.props.data);
         }
       }];
+      var cellClassName = this.props.options.actionsColumnIndex < this.props.options.fixedColumns ? 'cell-fixed' : '';
       return React.createElement(_core.TableCell, {
         padding: "none",
         key: "key-actions-column",
         style: {
           width: 42 * actions.length,
           padding: '0px 5px'
-        }
+        },
+        className: cellClassName
       }, React.createElement("div", {
         style: {
           display: 'flex'
@@ -174,7 +182,14 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       var localization = (0, _objectSpread2["default"])({}, MTableEditRow.defaultProps.localization, this.props.localization);
+
+      var cellClassName = function cellClassName(index) {
+        return index < _this4.props.options.fixedColumns ? 'cell-fixed' : '';
+      };
+
       var columns;
 
       if (this.props.mode === "add" || this.props.mode === "update") {
@@ -186,6 +201,7 @@ function (_React$Component) {
         columns = [React.createElement(_core.TableCell, {
           padding: this.props.options.actionsColumnIndex === 0 ? "none" : undefined,
           key: "key-selection-cell",
+          className: cellClassName(0),
           colSpan: colSpan
         }, React.createElement(_core.Typography, {
           variant: "h6"
@@ -195,14 +211,16 @@ function (_React$Component) {
       if (this.props.options.selection) {
         columns.splice(0, 0, React.createElement(_core.TableCell, {
           padding: "none",
-          key: "key-selection-cell"
+          key: "key-selection-cell",
+          className: cellClassName(0)
         }));
       }
 
       if (this.props.isTreeData) {
         columns.splice(0, 0, React.createElement(_core.TableCell, {
           padding: "none",
-          key: "key-tree-data-cell"
+          key: "key-tree-data-cell",
+          className: cellClassName(0)
         }));
       }
 
@@ -230,7 +248,8 @@ function (_React$Component) {
       if (this.props.detailPanel) {
         columns.splice(0, 0, React.createElement(_core.TableCell, {
           padding: "none",
-          key: "key-detail-panel-cell"
+          key: "key-detail-panel-cell",
+          className: cellClassName(0)
         }));
       }
 
@@ -239,7 +258,8 @@ function (_React$Component) {
       }).forEach(function (columnDef) {
         columns.splice(0, 0, React.createElement(_core.TableCell, {
           padding: "none",
-          key: "key-group-cell" + columnDef.tableData.id
+          key: "key-group-cell" + columnDef.tableData.id,
+          className: cellClassName(0)
         }));
       });
       var _this$props = this.props,

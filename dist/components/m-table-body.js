@@ -212,7 +212,8 @@ function (_React$Component) {
         localization: (0, _objectSpread2["default"])({}, MTableBody.defaultProps.localization.filterRow, this.props.localization.filterRow),
         hasDetailPanel: !!this.props.detailPanel,
         isTreeData: this.props.isTreeData,
-        filterCellStyle: this.props.options.filterCellStyle
+        filterCellStyle: this.props.options.filterCellStyle,
+        fixedColumns: this.props.options.fixedColumns
       }), this.props.showAddRow && this.props.options.addRowPosition === "first" && React.createElement(this.props.components.EditRow, {
         columns: this.props.columns.filter(function (columnDef) {
           return !columnDef.hidden;

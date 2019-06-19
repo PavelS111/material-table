@@ -129,11 +129,13 @@ function (_React$Component) {
         }
       }
 
+      var cellClassName = this.props.options.fixedColumns ? 'cell-fixed' : '';
       var freeCells = [];
 
       for (var i = 0; i < this.props.level; i++) {
         freeCells.push(React.createElement(_core.TableCell, {
-          padding: "checkbox"
+          padding: "checkbox",
+          className: cellClassName
         }));
       }
 
@@ -144,6 +146,7 @@ function (_React$Component) {
       }
 
       return React.createElement(React.Fragment, null, React.createElement(_core.TableRow, null, freeCells, React.createElement(this.props.components.Cell, {
+        isFixed: !!this.props.options.fixedColumns,
         colSpan: colSpan,
         padding: "none",
         columnDef: column,
