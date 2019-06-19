@@ -21,6 +21,7 @@ export default class MTableEditRow extends React.Component {
       .map((columnDef, index) => {
         const value = (typeof this.state.data[columnDef.field] !== 'undefined' ? this.state.data[columnDef.field] : byString(this.state.data, columnDef.field));
         const style = {};
+        const cellClassName = (index) => index < this.props.options.fixedColumns ? 'cell-fixed' : '';
         if (index === 0) {
           style.paddingLeft = 24 + this.props.level * 20;
         }
@@ -48,6 +49,7 @@ export default class MTableEditRow extends React.Component {
               value={value}
               key={columnDef.tableData.id}
               rowData={this.props.data}
+              isFixed={index < this.props.options.fixedColumns}
             />
           );
         }
@@ -58,6 +60,7 @@ export default class MTableEditRow extends React.Component {
             <TableCell
               key={columnDef.tableData.id}
               align={['numeric'].indexOf(columnDef.type) !== -1 ? "right" : "left"}
+              className={cellClassName(index)}
             >
               <EditComponent
                 key={columnDef.tableData.id}
@@ -101,8 +104,10 @@ export default class MTableEditRow extends React.Component {
         }
       }
     ];
+    const cellClassName = this.props.options.actionsColumnIndex < this.props.options.fixedColumns ? 'cell-fixed' : '';
+
     return (
-      <TableCell padding="none" key="key-actions-column" style={{ width: 42 * actions.length, padding: '0px 5px' }}>
+      <TableCell padding="none" key="key-actions-column" style={{ width: 42 * actions.length, padding: '0px 5px' }} className={cellClassName}>
         <div style={{ display: 'flex' }}>
           <this.props.components.Actions data={this.props.data} actions={actions} components={this.props.components} />
         </div>
@@ -121,6 +126,7 @@ export default class MTableEditRow extends React.Component {
 
   render() {
     const localization = { ...MTableEditRow.defaultProps.localization, ...this.props.localization };
+    const cellClassName = (index) => index < this.props.options.fixedColumns ? 'cell-fixed' : '';
 
     let columns;
     if (this.props.mode === "add" || this.props.mode === "update") {
@@ -132,6 +138,7 @@ export default class MTableEditRow extends React.Component {
         <TableCell
           padding={this.props.options.actionsColumnIndex === 0 ? "none" : undefined}
           key="key-selection-cell"
+          className={cellClassName(0)}
           colSpan={colSpan}>
           <Typography variant="h6">
             {localization.deleteText}
@@ -142,10 +149,10 @@ export default class MTableEditRow extends React.Component {
 
 
     if (this.props.options.selection) {
-      columns.splice(0, 0, <TableCell padding="none" key="key-selection-cell" />);
+      columns.splice(0, 0, <TableCell padding="none" key="key-selection-cell" className={cellClassName(0)} />);
     }
     if (this.props.isTreeData) {
-      columns.splice(0, 0, <TableCell padding="none" key="key-tree-data-cell" />);
+      columns.splice(0, 0, <TableCell padding="none" key="key-tree-data-cell" className={cellClassName(0)} />);
     }
 
     if (this.props.options.actionsColumnIndex === -1) {
@@ -166,13 +173,13 @@ export default class MTableEditRow extends React.Component {
 
     // Lastly we add detail panel icon
     if (this.props.detailPanel) {
-      columns.splice(0, 0, <TableCell padding="none" key="key-detail-panel-cell" />);
+      columns.splice(0, 0, <TableCell padding="none" key="key-detail-panel-cell" className={cellClassName(0)} />);
     }
 
     this.props.columns
       .filter(columnDef => columnDef.tableData.groupOrder > -1)
       .forEach(columnDef => {
-        columns.splice(0, 0, <TableCell padding="none" key={"key-group-cell" + columnDef.tableData.id} />);
+        columns.splice(0, 0, <TableCell padding="none" key={"key-group-cell" + columnDef.tableData.id} className={cellClassName(0)} />);
       });
 
     const {

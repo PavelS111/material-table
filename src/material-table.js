@@ -37,6 +37,7 @@ export default class MaterialTable extends React.Component {
 
         totalCount: 0
       },
+      scrollX: 0,
       showAddRow: false
     };
   }
@@ -221,6 +222,10 @@ export default class MaterialTable extends React.Component {
   }
 
   onDragEnd = result => {
+    if (result && result.destination && result.destination.index < this.props.options.fixedColumns && result.destination.droppableId === "headers") {
+      return;
+    }
+
     this.dataManager.changeByDrag(result);
     this.setState(this.dataManager.getRenderState());
 
@@ -414,6 +419,12 @@ export default class MaterialTable extends React.Component {
     this.setState(this.dataManager.getRenderState());
   }
 
+  onHorizontalScroll = (scrollX) => {
+    this.setState({
+      scrollX
+    });
+  }
+
   renderFooter() {
     const props = this.getProps();
     if (props.options.paging) {
@@ -453,7 +464,67 @@ export default class MaterialTable extends React.Component {
       );
     }
   }
+  renderTable() {
+    const props = this.getProps();
 
+    return <Table className={props.options.fixedColumns ? `table-fixed-${this.state.scrollX}` : ''}>
+      {props.options.header &&
+        <props.components.Header
+          localization={{ ...MaterialTable.defaultProps.localization.header, ...this.props.localization.header }}
+          columns={this.state.columns}
+          hasSelection={props.options.selection}
+          headerStyle={props.options.headerStyle}
+          selectedCount={this.state.selectedCount}
+          dataCount={props.parentChildData ? this.state.treefiedDataLength : this.state.data.length}
+          hasDetailPanel={!!props.detailPanel}
+          detailPanelColumnAlignment={props.options.detailPanelColumnAlignment}
+          showActionsColumn={props.actions && props.actions.filter(a => !a.isFreeAction && !this.props.options.selection).length > 0}
+          showSelectAllCheckbox={props.options.showSelectAllCheckbox}
+          orderBy={this.state.orderBy}
+          orderDirection={this.state.orderDirection}
+          onAllSelected={this.onAllSelected}
+          onOrderChange={this.onChangeOrder}
+          actionsHeaderIndex={props.options.actionsColumnIndex}
+          sorting={props.options.sorting}
+          grouping={props.options.grouping}
+          filtering={props.options.filtering}
+          filterType={props.options.filterType}
+          isTreeData={this.props.parentChildData !== undefined}
+          icons={this.props.icons}
+          onFilterChanged={this.onFilterChange}
+          components={props.components}
+          fixedColumns={props.options.fixedColumns}
+        />
+      }
+      <props.components.Body
+        actions={props.actions}
+        components={props.components}
+        icons={props.icons}
+        renderData={this.state.renderData}
+        currentPage={this.state.currentPage}
+        initialFormData={props.initialFormData}
+        pageSize={this.state.pageSize}
+        columns={this.state.columns}
+        detailPanel={props.detailPanel}
+        options={props.options}
+        getFieldValue={this.dataManager.getFieldValue}
+        isTreeData={this.props.parentChildData !== undefined}
+        onFilterChanged={this.onFilterChange}
+        onRowSelected={this.onRowSelected}
+        onToggleDetailPanel={this.onToggleDetailPanel}
+        onGroupExpandChanged={this.onGroupExpandChanged}
+        onTreeExpandChanged={this.onTreeExpandChanged}
+        onEditingCanceled={this.onEditingCanceled}
+        onEditingApproved={this.onEditingApproved}
+        localization={{ ...MaterialTable.defaultProps.localization.body, ...this.props.localization.body }}
+        onRowClick={this.props.onRowClick}
+        showAddRow={this.state.showAddRow}
+        hasAnyEditingRow={!!(this.state.lastEditingRow || this.state.showAddRow)}
+        hasDetailPanel={!!props.detailPanel}
+        treeDataMaxLevel={this.state.treeDataMaxLevel}
+      />
+    </Table>;
+  }
   render() {
     const props = this.getProps();
 
@@ -501,67 +572,14 @@ export default class MaterialTable extends React.Component {
               onGroupRemoved={this.onGroupRemoved}
             />
           }
-          <ScrollBar double={props.options.doubleHorizontalScroll}>
+          <ScrollBar double={props.options.doubleHorizontalScroll} onHorizontalScroll={this.onHorizontalScroll}>
             <Droppable droppableId="headers" direction="horizontal">
               {(provided, snapshot) => (
                 <div ref={provided.innerRef}>
                   <div style={{ maxHeight: props.options.maxBodyHeight, overflowY: 'auto' }}>
-                    <Table>
-                      {props.options.header &&
-                        <props.components.Header                        
-                          localization={{ ...MaterialTable.defaultProps.localization.header, ...this.props.localization.header }}
-                          columns={this.state.columns}
-                          hasSelection={props.options.selection}
-                          headerStyle={props.options.headerStyle}
-                          selectedCount={this.state.selectedCount}
-                          dataCount={props.parentChildData ? this.state.treefiedDataLength : this.state.data.length}
-                          hasDetailPanel={!!props.detailPanel}
-                          detailPanelColumnAlignment={props.options.detailPanelColumnAlignment}
-                          showActionsColumn={props.actions && props.actions.filter(a => !a.isFreeAction && !this.props.options.selection).length > 0}
-                          showSelectAllCheckbox={props.options.showSelectAllCheckbox}
-                          orderBy={this.state.orderBy}
-                          orderDirection={this.state.orderDirection}
-                          onAllSelected={this.onAllSelected}
-                          onOrderChange={this.onChangeOrder}
-                          actionsHeaderIndex={props.options.actionsColumnIndex}
-                          sorting={props.options.sorting}
-                          grouping={props.options.grouping}
-                          filtering={props.options.filtering}
-                          filterType={props.options.filterType}
-                          isTreeData={this.props.parentChildData !== undefined}
-                          icons={this.props.icons}
-                          onFilterChanged={this.onFilterChange}
-                          components={props.components}
-                        />
-                      }
-                      <props.components.Body
-                        actions={props.actions}
-                        components={props.components}
-                        icons={props.icons}
-                        renderData={this.state.renderData}
-                        currentPage={this.state.currentPage}
-                        initialFormData={props.initialFormData}
-                        pageSize={this.state.pageSize}
-                        columns={this.state.columns}
-                        detailPanel={props.detailPanel}
-                        options={props.options}
-                        getFieldValue={this.dataManager.getFieldValue}
-                        isTreeData={this.props.parentChildData !== undefined}
-                        onFilterChanged={this.onFilterChange}
-                        onRowSelected={this.onRowSelected}
-                        onToggleDetailPanel={this.onToggleDetailPanel}
-                        onGroupExpandChanged={this.onGroupExpandChanged}
-                        onTreeExpandChanged={this.onTreeExpandChanged}
-                        onEditingCanceled={this.onEditingCanceled}
-                        onEditingApproved={this.onEditingApproved}
-                        localization={{ ...MaterialTable.defaultProps.localization.body, ...this.props.localization.body }}
-                        onRowClick={this.props.onRowClick}
-                        showAddRow={this.state.showAddRow}
-                        hasAnyEditingRow={!!(this.state.lastEditingRow || this.state.showAddRow)}
-                        hasDetailPanel={!!props.detailPanel}
-                        treeDataMaxLevel={this.state.treeDataMaxLevel}
-                      />
-                    </Table>
+                    {/* {!!fixedColumns && this.renderTable(true)} */}
+                    {this.renderTable(false)}
+                    <style>{`.table-fixed-${this.state.scrollX} .cell-fixed { transform: translateX(${this.state.scrollX}px); z-index: 11 }`}</style>
                   </div>
                   {provided.placeholder}
                 </div>
@@ -589,7 +607,13 @@ export default class MaterialTable extends React.Component {
   }
 }
 
-const ScrollBar = ({ double, children }) => {
+const ScrollBar = ({ double, children, onHorizontalScroll }) => {
+  let divRef = null;
+  const setRef = ref => divRef = ref
+    && ref.children[0]
+    && ref.children[0].children
+    && ref.children[0].children[0];
+
   if (double) {
     return (
       <DoubleScrollbar>
@@ -599,7 +623,7 @@ const ScrollBar = ({ double, children }) => {
   }
   else {
     return (
-      <div style={{ overflowX: 'auto' }}>
+      <div ref={setRef} style={{ overflowX: 'auto' }} onScroll={() => divRef && onHorizontalScroll(divRef.scrollLeft)}>
         {children}
       </div>
     );

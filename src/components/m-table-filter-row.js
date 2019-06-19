@@ -142,17 +142,19 @@ class MTableFilterRow extends React.Component {
   }
 
   render() {
+    const cellClassName = (index) => index < this.props.fixedColumns ? 'cell-fixed' : '';
+
     const columns = this.props.columns
       .filter(columnDef => !columnDef.hidden && !(columnDef.tableData.groupOrder > -1))
       .sort((a, b) => a.tableData.columnOrder - b.tableData.columnOrder)
-      .map(columnDef => (
-        <TableCell key={columnDef.tableData.id} style={{ ...this.props.filterCellStyle, ...columnDef.filterCellStyle }}>
+      .map((columnDef, index) => (
+        <TableCell key={columnDef.tableData.id} style={{ ...this.props.filterCellStyle, ...columnDef.filterCellStyle }} className={cellClassName(index)}>
           {this.getComponentForColumn(columnDef)}
         </TableCell>
       ));
 
     if (this.props.selection) {
-      columns.splice(0, 0, <TableCell padding="none" key="key-selection-column"/>);
+      columns.splice(0, 0, <TableCell padding="none" key="key-selection-column" className={cellClassName(0)}/>);
     }
     
     if (this.props.emptyCell && this.props.hasActions) {
@@ -163,12 +165,12 @@ class MTableFilterRow extends React.Component {
         if (this.props.selection) {
           endPos = 1;
         }
-        columns.splice(this.props.actionsColumnIndex + endPos, 0, <TableCell key="key-action-column" />);
+        columns.splice(this.props.actionsColumnIndex + endPos, 0, <TableCell key="key-action-column" className={cellClassName(this.props.actionsColumnIndex + endPos)} />);
       }
     }
 
     if (this.props.hasDetailPanel) {
-      columns.splice(0, 0, <TableCell padding="none" key="key-detail-panel-column" />);
+      columns.splice(0, 0, <TableCell padding="none" key="key-detail-panel-column" className={cellClassName(0)} />);
     }
 
     if (this.props.isTreeData > 0) {
@@ -183,7 +185,7 @@ class MTableFilterRow extends React.Component {
     this.props.columns
       .filter(columnDef => columnDef.tableData.groupOrder > -1)
       .forEach(columnDef => {
-        columns.splice(0, 0, <TableCell padding="checkbox" key={"key-group-filter" + columnDef.tableData.id} />);
+        columns.splice(0, 0, <TableCell padding="checkbox" key={"key-group-filter" + columnDef.tableData.id} className={cellClassName(0)} />);
       });
 
     return (
@@ -214,7 +216,8 @@ MTableFilterRow.propTypes = {
   selection: PropTypes.bool.isRequired,
   actionsColumnIndex: PropTypes.number,
   hasActions: PropTypes.bool,
-  localization: PropTypes.object
+  localization: PropTypes.object,
+  fixedColumns: PropTypes.number
 };
 
 export default MTableFilterRow;
