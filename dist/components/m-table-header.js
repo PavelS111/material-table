@@ -108,10 +108,13 @@ function (_React$Component) {
           key: columnDef.tableData.id,
           align: ['numeric'].indexOf(columnDef.type) !== -1 ? "right" : "left",
           className: cellClassName,
-          style: (0, _objectSpread2["default"])({}, _this.props.headerStyle, columnDef.headerStyle, {
-            whiteSpace: 'nowrap'
-          })
-        }, content);
+          style: (0, _objectSpread2["default"])({}, _this.props.headerStyle, columnDef.headerStyle)
+        }, React.createElement("span", {
+          style: {
+            display: 'inline-flex',
+            alignItems: 'center'
+          }
+        }, content));
       });
       return mapArr;
     }

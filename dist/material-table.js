@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
 var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
@@ -46,6 +48,8 @@ var _debounce = require("debounce");
 /* eslint-disable no-unused-vars */
 
 /* eslint-enable no-unused-vars */
+var tableCounter = 1;
+
 var MaterialTable =
 /*#__PURE__*/
 function (_React$Component) {
@@ -355,11 +359,7 @@ function (_React$Component) {
 
       _this.setState(_this.dataManager.getRenderState());
     });
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "onHorizontalScroll", function (scrollX) {
-      _this.setState({
-        scrollX: scrollX
-      });
-    });
+    _this.id = "m_table_".concat(tableCounter++);
 
     var calculatedProps = _this.getProps(_props);
 
@@ -389,7 +389,6 @@ function (_React$Component) {
         search: renderState.searchText,
         totalCount: 0
       },
-      scrollX: 0,
       showAddRow: false
     });
     return _this;
@@ -573,7 +572,7 @@ function (_React$Component) {
 
       var props = this.getProps();
       return React.createElement(_core.Table, {
-        className: props.options.fixedColumns ? "table-fixed-".concat(this.state.scrollX) : ''
+        id: this.id
       }, props.options.header && React.createElement(props.components.Header, {
         localization: (0, _objectSpread2["default"])({}, MaterialTable.defaultProps.localization.header, this.props.localization.header),
         columns: this.state.columns,
@@ -681,7 +680,7 @@ function (_React$Component) {
         onGroupRemoved: this.onGroupRemoved
       }), React.createElement(ScrollBar, {
         "double": props.options.doubleHorizontalScroll,
-        onHorizontalScroll: this.onHorizontalScroll
+        tableId: this.id
       }, React.createElement(_reactBeautifulDnd.Droppable, {
         droppableId: "headers",
         direction: "horizontal"
@@ -693,7 +692,7 @@ function (_React$Component) {
             maxHeight: props.options.maxBodyHeight,
             overflowY: 'auto'
           }
-        }, _this5.renderTable(false), React.createElement("style", null, ".table-fixed-".concat(_this5.state.scrollX, " .cell-fixed { transform: translateX(").concat(_this5.state.scrollX, "px); z-index: 11 }"))), provided.placeholder);
+        }, _this5.renderTable()), provided.placeholder);
       })), (this.state.isLoading || props.isLoading) && props.options.loadingType === "linear" && React.createElement("div", {
         style: {
           position: 'relative',
@@ -729,7 +728,13 @@ exports["default"] = MaterialTable;
 var ScrollBar = function ScrollBar(_ref) {
   var _double = _ref["double"],
       children = _ref.children,
-      onHorizontalScroll = _ref.onHorizontalScroll;
+      tableId = _ref.tableId;
+
+  var _React$useState = React.useState(0),
+      _React$useState2 = (0, _slicedToArray2["default"])(_React$useState, 2),
+      scrollX = _React$useState2[0],
+      setScrollX = _React$useState2[1];
+
   var divRef = null;
 
   var setRef = function setRef(ref) {
@@ -745,8 +750,8 @@ var ScrollBar = function ScrollBar(_ref) {
         overflowX: 'auto'
       },
       onScroll: function onScroll() {
-        return divRef && onHorizontalScroll(divRef.scrollLeft);
+        return divRef && setScrollX(divRef.scrollLeft);
       }
-    }, children);
+    }, children, React.createElement("style", null, "#".concat(tableId, " .cell-fixed { transform: translateX(").concat(scrollX, "px); }")));
   }
 };

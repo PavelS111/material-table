@@ -8,11 +8,14 @@ import DataManager from './utils/data-manager';
 import { debounce } from 'debounce';
 /* eslint-enable no-unused-vars */
 
+let tableCounter = 1;
+
 export default class MaterialTable extends React.Component {
   dataManager = new DataManager();
-
   constructor(props) {
     super(props);
+
+    this.id = `m_table_${tableCounter++}`;
 
     const calculatedProps = this.getProps(props);
     this.setDataManagerFields(calculatedProps, true);
@@ -37,7 +40,6 @@ export default class MaterialTable extends React.Component {
 
         totalCount: 0
       },
-      scrollX: 0,
       showAddRow: false
     };
   }
@@ -419,12 +421,6 @@ export default class MaterialTable extends React.Component {
     this.setState(this.dataManager.getRenderState());
   }
 
-  onHorizontalScroll = (scrollX) => {
-    this.setState({
-      scrollX
-    });
-  }
-
   renderFooter() {
     const props = this.getProps();
     if (props.options.paging) {
@@ -467,7 +463,7 @@ export default class MaterialTable extends React.Component {
   renderTable() {
     const props = this.getProps();
 
-    return <Table className={props.options.fixedColumns ? `table-fixed-${this.state.scrollX}` : ''}>
+    return <Table id={this.id}>
       {props.options.header &&
         <props.components.Header
           localization={{ ...MaterialTable.defaultProps.localization.header, ...this.props.localization.header }}
@@ -572,14 +568,12 @@ export default class MaterialTable extends React.Component {
               onGroupRemoved={this.onGroupRemoved}
             />
           }
-          <ScrollBar double={props.options.doubleHorizontalScroll} onHorizontalScroll={this.onHorizontalScroll}>
+          <ScrollBar double={props.options.doubleHorizontalScroll} tableId={this.id}>
             <Droppable droppableId="headers" direction="horizontal">
               {(provided, snapshot) => (
                 <div ref={provided.innerRef}>
                   <div style={{ maxHeight: props.options.maxBodyHeight, overflowY: 'auto' }}>
-                    {/* {!!fixedColumns && this.renderTable(true)} */}
-                    {this.renderTable(false)}
-                    <style>{`.table-fixed-${this.state.scrollX} .cell-fixed { transform: translateX(${this.state.scrollX}px); z-index: 11 }`}</style>
+                    {this.renderTable()}
                   </div>
                   {provided.placeholder}
                 </div>
@@ -607,7 +601,9 @@ export default class MaterialTable extends React.Component {
   }
 }
 
-const ScrollBar = ({ double, children, onHorizontalScroll }) => {
+const ScrollBar = ({ double, children, tableId }) => {
+  const [scrollX, setScrollX] = React.useState(0);
+
   let divRef = null;
   const setRef = ref => divRef = ref
     && ref.children[0]
@@ -623,8 +619,9 @@ const ScrollBar = ({ double, children, onHorizontalScroll }) => {
   }
   else {
     return (
-      <div ref={setRef} style={{ overflowX: 'auto' }} onScroll={() => divRef && onHorizontalScroll(divRef.scrollLeft)}>
+      <div ref={setRef} style={{ overflowX: 'auto' }} onScroll={() => divRef && setScrollX(divRef.scrollLeft)}>
         {children}
+        <style>{`#${tableId} .cell-fixed { transform: translateX(${scrollX}px); }`}</style>
       </div>
     );
   }

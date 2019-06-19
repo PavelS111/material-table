@@ -87,9 +87,9 @@ export class MTableHeader extends React.Component {
             key={columnDef.tableData.id}
             align={['numeric'].indexOf(columnDef.type) !== -1 ? "right" : "left"}
             className={cellClassName}
-            style={{ ...this.props.headerStyle, ...columnDef.headerStyle, whiteSpace: 'nowrap' }}
+            style={{ ...this.props.headerStyle, ...columnDef.headerStyle }}
           >
-            {content}
+            <span style={{display: 'inline-flex', alignItems: 'center'}}>{content}</span>
           </TableCell>
         );
       });

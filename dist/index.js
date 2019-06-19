@@ -53,7 +53,11 @@ var styles = function styles(theme) {
     '@global': {
       '.MuiTableCell-body.cell-fixed': {
         backgroundColor: theme.palette.background.paper,
-        position: 'relative'
+        position: 'relative',
+        zIndex: 1
+      },
+      '.MuiTableCell-head.cell-fixed': {
+        zIndex: 11
       }
     }
   };
