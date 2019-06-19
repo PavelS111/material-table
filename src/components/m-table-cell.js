@@ -95,11 +95,12 @@ export default class MTableCell extends React.Component {
 
   render() {
 
-    const { icons, columnDef, rowData, ...cellProps } = this.props;
+    const { icons, columnDef, rowData, isFixed, ...cellProps } = this.props;
 
     return (
       <TableCell
         {...cellProps}
+        className={isFixed ? 'cell-fixed' : ''}
         style={this.getStyle()}
         align={['numeric'].indexOf(this.props.columnDef.type) !== -1 ? "right" : "left"}
         onClick={this.handleClickCell}
@@ -119,5 +120,6 @@ MTableCell.defaultProps = {
 MTableCell.propTypes = {
   columnDef: PropTypes.object.isRequired,
   value: PropTypes.any,
-  rowData: PropTypes.object
+  rowData: PropTypes.object,
+  isFixed: PropTypes.bool,
 };

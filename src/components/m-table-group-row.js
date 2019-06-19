@@ -30,7 +30,7 @@ export default class MTableGroupRow extends React.Component {
             detailPanel={this.props.detailPanel}
             getFieldValue={this.props.getFieldValue}
             groupData={groupData}
-            groups={this.props.groups}            
+            groups={this.props.groups}
             icons={this.props.icons}
             level={this.props.level + 1}
             path={[...this.props.path, index]}
@@ -73,9 +73,10 @@ export default class MTableGroupRow extends React.Component {
       }
     }
 
+    const cellClassName = this.props.options.fixedColumns ? 'cell-fixed' : '';
     const freeCells = [];
     for (let i = 0; i < this.props.level; i++) {
-      freeCells.push(<TableCell padding="checkbox" />);
+      freeCells.push(<TableCell padding="checkbox" className={cellClassName}/>);
     }
 
     let value = this.props.groupData.value;
@@ -87,7 +88,8 @@ export default class MTableGroupRow extends React.Component {
       <>
         <TableRow>
           {freeCells}
-          <this.props.components.Cell 
+          <this.props.components.Cell
+            isFixed={!!this.props.options.fixedColumns}
             colSpan={colSpan} 
             padding="none" 
             columnDef={column} 

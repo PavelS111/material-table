@@ -121,6 +121,7 @@ export const propTypes = {
     filtering: PropTypes.bool,
     filterType: PropTypes.oneOf(['row', 'header']),
     filterCellStyle: PropTypes.object,
+    fixedColumns: PropTypes.number,
     header: PropTypes.bool,
     headerStyle: PropTypes.object,
     initialPage: PropTypes.number,
@@ -143,7 +144,7 @@ export const propTypes = {
     showTitle: PropTypes.bool,
     showTextRowsSelected: PropTypes.bool,
     sorting: PropTypes.bool,
-    toolbar: PropTypes.bool,
+    toolbar: PropTypes.bool
   }),
   localization: PropTypes.shape({
     grouping: PropTypes.shape({

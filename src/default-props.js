@@ -76,6 +76,7 @@ export const defaultProps = {
     exportDelimiter: ',',
     filtering: false,
     filterType: 'row',
+    fixedColumns: 0,
     header: true,
     loadingType: 'overlay',
     paging: true,

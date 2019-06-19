@@ -139,6 +139,7 @@ class MTableBody extends React.Component {
             hasDetailPanel={!!this.props.detailPanel}
             isTreeData={this.props.isTreeData}
             filterCellStyle={this.props.options.filterCellStyle}
+            fixedColumns={this.props.options.fixedColumns}
           />
         }
 
