@@ -192,6 +192,7 @@ export interface Options {
   filtering?: boolean;
   filterType?: ('row' | 'header');
   filterCellStyle?: React.CSSProperties;
+  fixedColumns?: number,
   header?: boolean;
   headerStyle?: React.CSSProperties;
   initialPage?: number;
