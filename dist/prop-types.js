@@ -29,6 +29,7 @@ var propTypes = {
     hidden: _propTypes["default"].bool
   })])),
   columns: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    aggregation: _propTypes["default"].oneOf([undefined, 'sum', 'min', 'max', 'count', 'avg', 'custom']),
     cellStyle: _propTypes["default"].oneOfType([_propTypes["default"].object, _propTypes["default"].func]),
     currencySetting: _propTypes["default"].shape({
       locale: _propTypes["default"].string,

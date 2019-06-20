@@ -1,6 +1,6 @@
 {
   "name": "material-table",
-  "version": "1.39.0-1",
+  "version": "1.39.0-2",
   "description": "Datatable for React based on https://material-ui.com/api/table/ with additional features",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mbrn/material-table.git"
+    "url": "git+https://github.com/PavelS111/material-table.git"
   },
   "keywords": [
     "react",

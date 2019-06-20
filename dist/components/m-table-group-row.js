@@ -151,7 +151,9 @@ function (_React$Component) {
         padding: "none",
         columnDef: column,
         value: value,
-        icons: this.props.icons
+        icons: this.props.icons,
+        sorting: !!this.props.options.sorting,
+        headerFiltering: this.props.options.filtering && this.props.options.filterType === 'header'
       }, React.createElement(_core.IconButton, {
         style: (0, _objectSpread2["default"])({
           transition: 'all ease 200ms'

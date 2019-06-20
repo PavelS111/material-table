@@ -83,7 +83,9 @@ function (_React$Component) {
           columnDef: columnDef,
           value: value,
           key: "cell-" + _this2.props.data.tableData.di + "-" + columnDef.tableData.id,
-          rowData: _this2.props.data
+          rowData: _this2.props.data,
+          sorting: !!_this2.props.options.sorting,
+          headerFiltering: _this2.props.options.filtering && _this2.props.options.filterType === 'header'
         });
       });
       return mapArr;

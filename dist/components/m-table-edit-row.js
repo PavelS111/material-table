@@ -96,7 +96,9 @@ function (_React$Component) {
             value: value,
             key: columnDef.tableData.id,
             rowData: _this2.props.data,
-            isFixed: index < _this2.props.options.fixedColumns
+            isFixed: index < _this2.props.options.fixedColumns,
+            sorting: !!_this2.props.options.sorting,
+            headerFiltering: _this2.props.options.filtering && _this2.props.options.filterType === 'header'
           });
         } else {
           var editComponent = columnDef.editComponent,

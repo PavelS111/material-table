@@ -626,7 +626,18 @@ function (_React$Component) {
         hasAnyEditingRow: !!(this.state.lastEditingRow || this.state.showAddRow),
         hasDetailPanel: !!props.detailPanel,
         treeDataMaxLevel: this.state.treeDataMaxLevel
-      }));
+      }), !!this.state.renderData && !!this.state.renderData.length && React.createElement(_core.TableFooter, null, React.createElement(props.components.Totals, {
+        components: props.components,
+        icons: props.icons,
+        renderData: this.dataManager.filteredData,
+        options: props.options,
+        getAggregation: this.dataManager.getAggregation,
+        columns: props.columns,
+        isTreeData: this.props.parentChildData !== undefined,
+        detailPanel: props.detailPanel,
+        actions: props.actions,
+        hasAnyEditingRow: !!(this.state.lastEditingRow || this.state.showAddRow)
+      })));
     }
   }, {
     key: "render",

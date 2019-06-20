@@ -165,13 +165,30 @@ function (_React$Component) {
           columnDef = _this$props.columnDef,
           rowData = _this$props.rowData,
           isFixed = _this$props.isFixed,
-          cellProps = (0, _objectWithoutProperties2["default"])(_this$props, ["icons", "columnDef", "rowData", "isFixed"]);
+          value = _this$props.value,
+          cellProps = (0, _objectWithoutProperties2["default"])(_this$props, ["icons", "columnDef", "rowData", "isFixed", "value"]);
+      var padding = 0;
+
+      if (this.props.columnDef.type === 'numeric') {
+        if (this.props.columnDef.sorting !== false && this.props.sorting) {
+          padding += 26;
+        }
+
+        if (this.props.headerFiltering) {
+          padding += 24;
+        }
+      }
+
       return React.createElement(_core.TableCell, (0, _extends2["default"])({}, cellProps, {
         className: isFixed ? 'cell-fixed' : '',
         style: this.getStyle(),
         align: ['numeric'].indexOf(this.props.columnDef.type) !== -1 ? "right" : "left",
         onClick: this.handleClickCell
-      }), this.props.children, this.getRenderValue());
+      }), React.createElement("span", {
+        style: {
+          paddingRight: "".concat(padding, "px")
+        }
+      }, this.props.children, this.getRenderValue()));
     }
   }]);
   return MTableCell;
@@ -186,5 +203,7 @@ MTableCell.propTypes = {
   columnDef: _propTypes["default"].object.isRequired,
   value: _propTypes["default"].any,
   rowData: _propTypes["default"].object,
-  isFixed: _propTypes["default"].bool
+  isFixed: _propTypes["default"].bool,
+  sorting: _propTypes["default"].bool.isRequired,
+  headerFiltering: _propTypes["default"].bool.isRequired
 };

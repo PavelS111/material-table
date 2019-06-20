@@ -254,6 +254,53 @@ function () {
 
       _this.searched = true;
     });
+    (0, _defineProperty2["default"])(this, "getAggregation", function (data, columnDef) {
+      var lookup = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+      switch (columnDef.aggregation) {
+        case 'sum':
+          return data.map(function (x) {
+            return _this.getFieldValue(x, columnDef, lookup);
+          }).reduce(function (prev, curr) {
+            return prev + curr;
+          }, 0);
+
+        case 'max':
+          return data.map(function (x) {
+            return _this.getFieldValue(x, columnDef, lookup);
+          }).reduce(function (prev, curr) {
+            return curr > prev ? curr : prev;
+          }, Number.MIN_SAFE_INTEGER);
+
+        case 'min':
+          return data.map(function (x) {
+            return _this.getFieldValue(x, columnDef, lookup);
+          }).reduce(function (prev, curr) {
+            return curr < prev ? curr : prev;
+          }, Number.MAX_SAFE_INTEGER);
+
+        case 'count':
+          return data.map(function (x) {
+            return _this.getFieldValue(x, columnDef, lookup);
+          }).length;
+
+        case 'avg':
+          {
+            var items = data.map(function (x) {
+              return _this.getFieldValue(x, columnDef, lookup);
+            });
+            return items.reduce(function (prev, curr) {
+              return prev + curr;
+            }, 0) / items.length;
+          }
+
+        case 'custom':
+          return columnDef.render && columnDef.render(data, 'totals');
+
+        default:
+          return undefined;
+      }
+    });
   }
 
   (0, _createClass2["default"])(DataManager, [{

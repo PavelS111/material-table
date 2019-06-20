@@ -95,6 +95,12 @@ Object.defineProperty(exports, "MTableFilterButton", {
     return _mTableFilterButton["default"];
   }
 });
+Object.defineProperty(exports, "MTableTotalsRow", {
+  enumerable: true,
+  get: function get() {
+    return _mTableTotalRow["default"];
+  }
+});
 
 var _mTableAction = _interopRequireDefault(require("./m-table-action"));
 
@@ -125,3 +131,5 @@ var _mTableSteppedPagination = _interopRequireDefault(require("./m-table-stepped
 var _mTableToolbar = _interopRequireDefault(require("./m-table-toolbar"));
 
 var _mTableFilterButton = _interopRequireDefault(require("./m-table-filter-button"));
+
+var _mTableTotalRow = _interopRequireDefault(require("./m-table-total-row"));

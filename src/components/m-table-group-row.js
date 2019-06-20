@@ -95,6 +95,8 @@ export default class MTableGroupRow extends React.Component {
             columnDef={column} 
             value={value}
             icons={this.props.icons}
+            sorting={!!this.props.options.sorting}
+            headerFiltering={this.props.options.filtering && this.props.options.filterType === 'header'}
           >
             <IconButton
               style={{ transition: 'all ease 200ms', ...this.rotateIconStyle(this.props.groupData.isExpanded) }}

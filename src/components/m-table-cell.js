@@ -94,19 +94,30 @@ export default class MTableCell extends React.Component {
   }
 
   render() {
+    const { icons, columnDef, rowData, isFixed, value, ...cellProps } = this.props;
+    let padding = 0;
 
-    const { icons, columnDef, rowData, isFixed, ...cellProps } = this.props;
+    if (this.props.columnDef.type === 'numeric') {
+      if (this.props.columnDef.sorting !== false && this.props.sorting) {
+        padding += 26;
+      }
+      if (this.props.headerFiltering) {
+        padding += 24;
+      }
+    }
 
     return (
       <TableCell
-        {...cellProps}
-        className={isFixed ? 'cell-fixed' : ''}
-        style={this.getStyle()}
-        align={['numeric'].indexOf(this.props.columnDef.type) !== -1 ? "right" : "left"}
-        onClick={this.handleClickCell}
+          {...cellProps}
+          className={isFixed ? 'cell-fixed' : ''}
+          style={this.getStyle()}
+          align={['numeric'].indexOf(this.props.columnDef.type) !== -1 ? "right" : "left"}
+          onClick={this.handleClickCell}
       >
-        {this.props.children}
-        {this.getRenderValue()}
+        <span style={{paddingRight: `${padding}px`}}>
+          {this.props.children}
+          {this.getRenderValue()}
+        </span>
       </TableCell>
     );
   }
@@ -122,4 +133,6 @@ MTableCell.propTypes = {
   value: PropTypes.any,
   rowData: PropTypes.object,
   isFixed: PropTypes.bool,
+  sorting: PropTypes.bool.isRequired,
+  headerFiltering: PropTypes.bool.isRequired
 };

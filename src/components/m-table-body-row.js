@@ -19,6 +19,8 @@ export default class MTableBodyRow extends React.Component {
             value={value}
             key={"cell-" + this.props.data.tableData.di + "-" + columnDef.tableData.id}
             rowData={this.props.data}
+            sorting={!!this.props.options.sorting}
+            headerFiltering={this.props.options.filtering && this.props.options.filterType === 'header'}
           />
         );
       });
