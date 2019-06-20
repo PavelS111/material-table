@@ -17,6 +17,7 @@ export const propTypes = {
     hidden: PropTypes.bool,
   })])),
   columns: PropTypes.arrayOf(PropTypes.shape({
+    aggregation: PropTypes.oneOf([undefined, 'sum', 'min', 'max', 'count', 'avg', 'custom']),
     cellStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
     currencySetting: PropTypes.shape({
       locale: PropTypes.string,

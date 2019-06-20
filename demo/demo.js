@@ -13,6 +13,30 @@ const theme = createMuiTheme({
   }
 });
 
+const sexColumnRender = (data, type) => {
+  if (type === 'totals') {
+    const result = [];
+    const map = data.reduce((prev, curr) => {
+      if (!prev[curr.type]) {
+        prev[curr.type] = [];
+      }
+
+      prev[curr.type].push(curr);
+      return prev;
+    }, {});
+    for (const type in map) {
+      const maleCount = map[type].filter(x => x.sex === 'Male').length;
+      const femaleCount = map[type].filter(x => x.sex === 'Female').length;
+
+      result.push(<div key={type}>{`${type}: ${maleCount}/${femaleCount}`}</div>);
+    }
+
+    return result;
+  }
+
+  return data.sex;
+};
+
 const bigData = [];
 for (let i = 0; i < 1; i++) {
   const d = {
@@ -61,8 +85,9 @@ class App extends Component {
                 props.onRowDataChange(data);
               }}
             />
-          )
-        }
+          );
+        },
+        aggregation: 'count'
       },
       {
         title: 'Soyadı', field: 'surname', editComponent: props => {
@@ -76,17 +101,17 @@ class App extends Component {
         }
       },
       { title: 'Evli', field: 'isMarried', type: 'boolean' },
-      { title: 'Cinsiyet', field: 'sex', disableClick: true, editable: 'onAdd' },
+      { title: 'Cinsiyet', field: 'sex', disableClick: true, editable: 'onAdd', aggregation: 'custom', render: sexColumnRender },
       { title: 'Tipi', field: 'type', removable: false, editable: 'never' },
-      { title: 'Doğum Yılı', field: 'birthDate', type: 'date', filtering: false },
+      { title: 'Doğum Yılı', field: 'birthDate', type: 'date', filtering: false, aggregation: 'max' },
       { title: 'Doğum Yeri', field: 'birthCity', lookup: { 34: 'İstanbul', 0: 'Şanlıurfa' } },
       { title: 'Kayıt Tarihi', field: 'insertDateTime', type: 'datetime' },
       { title: 'Zaman', field: 'time', type: 'time' },
-      { title: 'Salary, $', field: 'salary', type: 'numeric' }
+      { title: 'Salary, $', field: 'salary', type: 'numeric', aggregation: 'avg' }
     ],
     remoteColumns: [
       { title: 'Avatar', field: 'avatar', render: rowData => <img style={{ height: 36, borderRadius: '50%' }} src={rowData.avatar} /> },
-      { title: 'Id', field: 'id' },
+      { title: 'Id', field: 'id', aggregation: 'count' },
       { title: 'First Name', field: 'first_name', defaultFilter: 'De' },
       { title: 'Last Name', field: 'last_name' },
     ]

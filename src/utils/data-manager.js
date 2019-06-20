@@ -756,4 +756,34 @@ export default class DataManager {
 
     this.paged = true;
   }
+
+  getAggregation = (data, columnDef, lookup = true) => {
+    switch (columnDef.aggregation) {
+      case 'sum':
+        return data
+          .map(x => this.getFieldValue(x, columnDef, lookup))
+          .reduce((prev, curr) => prev + curr, 0);
+      case 'max':
+          return data
+            .map(x => this.getFieldValue(x, columnDef, lookup))
+            .reduce((prev, curr) => curr > prev ? curr : prev, Number.MIN_SAFE_INTEGER);
+      case 'min':
+          return data
+            .map(x => this.getFieldValue(x, columnDef, lookup))
+            .reduce((prev, curr) => curr < prev ? curr : prev, Number.MAX_SAFE_INTEGER);
+      case 'count':
+          return data
+            .map(x => this.getFieldValue(x, columnDef, lookup))
+            .length;
+      case 'avg': {
+          const items = data
+            .map(x => this.getFieldValue(x, columnDef, lookup));
+          return items.reduce((prev, curr) => prev + curr, 0) / items.length;
+      }
+      case 'custom':
+        return columnDef.render && columnDef.render(data, 'totals');
+      default:
+        return undefined;
+    }
+  }
 }
