@@ -114,6 +114,7 @@ var propTypes = {
     actionsCellStyle: _propTypes["default"].object,
     actionsColumnIndex: _propTypes["default"].number,
     addRowPosition: _propTypes["default"].oneOf(['first', 'last']),
+    aggregation: _propTypes["default"].bool,
     columnsButton: _propTypes["default"].bool,
     defaultExpanded: _propTypes["default"].bool,
     debounceInterval: _propTypes["default"].number,

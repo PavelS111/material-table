@@ -520,7 +520,7 @@ export default class MaterialTable extends React.Component {
         hasDetailPanel={!!props.detailPanel}
         treeDataMaxLevel={this.state.treeDataMaxLevel}
       />
-      {!!this.state.renderData && !!this.state.renderData.length &&
+      {this.props.options.aggregation && !!this.dataManager.filteredData && !!this.dataManager.filteredData.length &&
         <TableFooter>
           <props.components.Totals
               components={props.components}

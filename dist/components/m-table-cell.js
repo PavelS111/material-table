@@ -166,7 +166,9 @@ function (_React$Component) {
           rowData = _this$props.rowData,
           isFixed = _this$props.isFixed,
           value = _this$props.value,
-          cellProps = (0, _objectWithoutProperties2["default"])(_this$props, ["icons", "columnDef", "rowData", "isFixed", "value"]);
+          sorting = _this$props.sorting,
+          headerFiltering = _this$props.headerFiltering,
+          cellProps = (0, _objectWithoutProperties2["default"])(_this$props, ["icons", "columnDef", "rowData", "isFixed", "value", "sorting", "headerFiltering"]);
       var padding = 0;
 
       if (this.props.columnDef.type === 'numeric') {
