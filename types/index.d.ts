@@ -101,6 +101,7 @@ export interface Column {
   defaultGroupOrder?: number;
   defaultGroupSort?: ('asc' | 'desc');
   defaultSort?: ('asc' | 'desc');
+  digits?: number;
   disableClick?: boolean;
   editComponent?: ((props: EditComponentProps) => React.ReactElement<any>);
   emptyValue?: string | React.ReactElement<any> | ((data: any) => React.ReactElement<any> | string);
@@ -137,6 +138,7 @@ export interface Components {
   OverlayLoading?: React.ComponentType<any>;
   Row?: React.ComponentType<any>;
   Toolbar?: React.ComponentType<any>;
+  Totals?: React.ComponentType<any>;
 }
 
 export const MTableAction: () => React.ReactElement<any>;

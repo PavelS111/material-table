@@ -44,6 +44,15 @@ export default class MTableCell extends React.Component {
       }
     } else if (this.props.columnDef.type === 'currency') {
       return this.getCurrencyValue(this.props.columnDef.currencySetting, this.props.value);
+    } else if (this.props.columnDef.type === 'numeric') {
+      if (this.props.columnDef.digits !== undefined) {
+        return this.props.value
+          .toFixed(this.props.columnDef.digits)
+          .replace(/[0]+$/, '')
+          .replace(/[.]+$/, '');
+      }
+
+      return this.props.value;
     }
 
     return this.props.value;
