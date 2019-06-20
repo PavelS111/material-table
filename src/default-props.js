@@ -37,7 +37,8 @@ export const defaultProps = {
     Pagination: TablePagination,
     Row: MComponents.MTableBodyRow,
     Toolbar: MComponents.MTableToolbar,
-    FilterButton: MComponents.MTableFilterButton
+    FilterButton: MComponents.MTableFilterButton,
+    Totals: MComponents.MTableTotalsRow
   },
   data: [],
   icons: {

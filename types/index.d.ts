@@ -92,10 +92,11 @@ export interface EditCellColumnDef {
 }
 
 export interface Column {
+  aggregation: undefined | 'avg' | 'sum' | 'min' | 'max' | 'count' | 'custom';
   cellStyle?: React.CSSProperties | ((data: any, rowData: any) => React.CSSProperties);
   currencySetting?: { locale?: string, currencyCode?: string, minimumFractionDigits?: number, maximumFractionDigits?: number };
   customFilterAndSearch?: (filter: any, rowData: any, columnDef: Column) => boolean;
-  customSort?: (data1: any, data2: any, type: (('row' | 'group'))) => number;
+  customSort?: (data1: any, data2: any, type: (('row' | 'group' | 'totals'))) => number;
   defaultFilter?: any;
   defaultGroupOrder?: number;
   defaultGroupSort?: ('asc' | 'desc');
@@ -113,7 +114,7 @@ export interface Column {
   lookup?: object;
   editable?: ('always' | 'onUpdate' | 'onAdd' | 'never');
   removable?: boolean;
-  render?: (data: any, type: ('row' | 'group')) => any;
+  render?: (data: any, type: ('row' | 'group' | 'totals')) => any;
   searchable?: boolean;
   sorting?: boolean;
   title?: string | React.ReactElement<any>;

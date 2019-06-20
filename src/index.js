@@ -27,7 +27,7 @@ const styles = theme => ({
       position: 'relative',
       zIndex: 1
     },
-    '.MuiTableCell-head.cell-fixed': {
+    '.MuiTableCell-head.cell-fixed, .MuiTableCell-footer.cell-fixed': {
       zIndex: 11
     }
   }
