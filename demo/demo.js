@@ -142,6 +142,7 @@ class App extends Component {
                   data={this.state.data}
                   title="Demo Title"
                   options={{
+                    aggregation: true,
                     columnsButton: true,
                     selection: true,
                     grouping: true,
@@ -331,6 +332,7 @@ class App extends Component {
               options={{
                 actionsAlign: this.state.actionsAlign,
                 addRowPosition: this.state.actionsAlign === 'left' ? '' : 'last',
+                aggregation: true,
                 fixedColumns: 1,
               }}
             />

@@ -92,7 +92,7 @@ export interface EditCellColumnDef {
 }
 
 export interface Column {
-  aggregation: undefined | 'avg' | 'sum' | 'min' | 'max' | 'count' | 'custom';
+  aggregation?: 'avg' | 'sum' | 'min' | 'max' | 'count' | 'custom';
   cellStyle?: React.CSSProperties | ((data: any, rowData: any) => React.CSSProperties);
   currencySetting?: { locale?: string, currencyCode?: string, minimumFractionDigits?: number, maximumFractionDigits?: number };
   customFilterAndSearch?: (filter: any, rowData: any, columnDef: Column) => boolean;
@@ -179,6 +179,7 @@ export interface Options {
   actionsCellStyle?: React.CSSProperties;
   actionsColumnIndex?: number;
   addRowPosition?: ('first' | 'last');
+  aggregation?: boolean;
   columnsButton?: boolean;
   defaultExpanded?: boolean;
   debounceInterval?: number;

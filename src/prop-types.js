@@ -14,7 +14,7 @@ export const propTypes = {
     onClick: PropTypes.func.isRequired,
     iconProps: PropTypes.object,
     disabled: PropTypes.bool,
-    hidden: PropTypes.bool,
+    hidden: PropTypes.bool
   })])),
   columns: PropTypes.arrayOf(PropTypes.shape({
     aggregation: PropTypes.oneOf([undefined, 'sum', 'min', 'max', 'count', 'avg', 'custom']),
@@ -100,7 +100,7 @@ export const propTypes = {
     Search: PropTypes.oneOfType([PropTypes.element, PropTypes.func, RefComponent]),
     SortArrow: PropTypes.oneOfType([PropTypes.element, PropTypes.func, RefComponent]),
     ThirdStateCheck: PropTypes.oneOfType([PropTypes.element, PropTypes.func, RefComponent]),
-    ViewColumn: PropTypes.oneOfType([PropTypes.element, PropTypes.func, RefComponent]),
+    ViewColumn: PropTypes.oneOfType([PropTypes.element, PropTypes.func, RefComponent])
   }),
   isLoading: PropTypes.bool,
   title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
@@ -108,6 +108,7 @@ export const propTypes = {
     actionsCellStyle: PropTypes.object,
     actionsColumnIndex: PropTypes.number,
     addRowPosition: PropTypes.oneOf(['first', 'last']),
+    aggregation: PropTypes.bool,
     columnsButton: PropTypes.bool,
     defaultExpanded: PropTypes.bool,
     debounceInterval: PropTypes.number,

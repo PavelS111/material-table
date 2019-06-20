@@ -94,7 +94,7 @@ export default class MTableCell extends React.Component {
   }
 
   render() {
-    const { icons, columnDef, rowData, isFixed, value, ...cellProps } = this.props;
+    const { icons, columnDef, rowData, isFixed, value, sorting, headerFiltering, ...cellProps } = this.props;
     let padding = 0;
 
     if (this.props.columnDef.type === 'numeric') {

@@ -72,15 +72,7 @@ MTableTotalsRow.defaultProps = {
 };
 
 MTableTotalsRow.propTypes = {
-  actions: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.func, PropTypes.shape({
-    icon: PropTypes.oneOfType([PropTypes.element, PropTypes.func, PropTypes.string]).isRequired,
-    isFreeAction: PropTypes.bool,
-    tooltip: PropTypes.string,
-    onClick: PropTypes.func.isRequired,
-    iconProps: PropTypes.object,
-    disabled: PropTypes.bool,
-    hidden: PropTypes.bool
-  })])),
+  actions: PropTypes.array,
   components: PropTypes.object,
   icons: PropTypes.any.isRequired,
   isTreeData: PropTypes.bool.isRequired,
