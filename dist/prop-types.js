@@ -41,6 +41,7 @@ var propTypes = {
     customSort: _propTypes["default"].func,
     defaultFilter: _propTypes["default"].any,
     defaultSort: _propTypes["default"].oneOf(['asc', 'desc']),
+    digits: _propTypes["default"].number,
     editComponent: _propTypes["default"].oneOfType([_propTypes["default"].element, _propTypes["default"].func]),
     emptyValue: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].node, _propTypes["default"].func]),
     "export": _propTypes["default"].bool,
