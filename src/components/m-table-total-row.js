@@ -10,15 +10,16 @@ class MTableTotalsRow extends React.Component {
         const cellClassName = index < this.props.options.fixedColumns ? 'cell-fixed' : '';
         const value = this.props.getAggregation(this.props.renderData, columnDef);
 
-        return columnDef.aggregation === 'custom' || value === undefined
+        return value === undefined
           ? <TableCell key={`cell-total-${columnDef.tableData.id}`} className={cellClassName}>{value}</TableCell>
           : <this.props.components.Cell
               icons={this.props.icons}
               isFixed={index < this.props.options.fixedColumns}
+              isTotals
               columnDef={columnDef}
               value={value}
               key={'cell-total-' + columnDef.tableData.id}
-              rowData={this.props.renderData[0]}
+              // rowData={undefined}
               sorting={!!this.props.options.sorting}
               headerFiltering={this.props.options.filtering && this.props.options.filterType === 'header'}
             />;

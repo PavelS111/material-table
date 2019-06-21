@@ -9,7 +9,7 @@ export default class MTableCell extends React.Component {
     if (this.props.columnDef.emptyValue !== undefined && (this.props.value === undefined || this.props.value === null)) {
       return this.getEmptyValue(this.props.columnDef.emptyValue);
     }
-    if (this.props.columnDef.render) {
+    if (this.props.columnDef.render && !this.props.isTotals) {
       if(this.props.rowData) {
         return this.props.columnDef.render(this.props.rowData, 'row');
       }
@@ -143,5 +143,6 @@ MTableCell.propTypes = {
   rowData: PropTypes.object,
   isFixed: PropTypes.bool,
   sorting: PropTypes.bool.isRequired,
-  headerFiltering: PropTypes.bool.isRequired
+  headerFiltering: PropTypes.bool.isRequired,
+  isTotals: PropTypes.bool,
 };
