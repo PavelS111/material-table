@@ -728,7 +728,7 @@ function (_React$Component) {
         }
       }, React.createElement(props.components.OverlayLoading, {
         theme: props.theme
-      }))));
+      }))), React.createElement("style", null, ".totals-row td.MuiTableCell-footer:before {\n      content: '';\n      position: absolute;\n      left: 0;\n      top: 0;\n      width: 100%;\n      border-bottom: 1px solid rgba(0,0,0,0.12);\n    }"));
     }
   }]);
   return MaterialTable;
