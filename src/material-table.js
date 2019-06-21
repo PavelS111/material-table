@@ -437,7 +437,7 @@ export default class MaterialTable extends React.Component {
                   caption: props.classes.paginationCaption,
                   selectRoot: props.classes.paginationSelectRoot,
                 }}
-                style={{ float: props.theme.direction === "rtl" ? "" : "right", overflowX: 'auto' }}
+                style={{ float: props.theme.direction === "rtl" ? "" : "right", overflowX: 'auto', borderBottom: 'none', }}
                 colSpan={3}
                 count={this.isRemoteData() ? this.state.query.totalCount : this.state.data.length}
                 icons={props.icons}
