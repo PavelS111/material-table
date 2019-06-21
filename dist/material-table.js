@@ -529,7 +529,8 @@ function (_React$Component) {
           },
           style: {
             "float": props.theme.direction === "rtl" ? "" : "right",
-            overflowX: 'auto'
+            overflowX: 'auto',
+            borderBottom: 'none'
           },
           colSpan: 3,
           count: this.isRemoteData() ? this.state.query.totalCount : this.state.data.length,
