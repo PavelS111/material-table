@@ -68,16 +68,17 @@ function (_React$Component) {
 
         var value = _this2.props.getAggregation(_this2.props.renderData, columnDef);
 
-        return columnDef.aggregation === 'custom' || value === undefined ? React.createElement(_core.TableCell, {
+        return value === undefined ? React.createElement(_core.TableCell, {
           key: "cell-total-".concat(columnDef.tableData.id),
           className: cellClassName
         }, value) : React.createElement(_this2.props.components.Cell, {
           icons: _this2.props.icons,
           isFixed: index < _this2.props.options.fixedColumns,
+          isTotals: true,
           columnDef: columnDef,
           value: value,
-          key: 'cell-total-' + columnDef.tableData.id,
-          rowData: _this2.props.renderData[0],
+          key: 'cell-total-' + columnDef.tableData.id // rowData={undefined}
+          ,
           sorting: !!_this2.props.options.sorting,
           headerFiltering: _this2.props.options.filtering && _this2.props.options.filterType === 'header'
         });

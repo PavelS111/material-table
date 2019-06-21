@@ -85,7 +85,7 @@ function (_React$Component) {
         return this.getEmptyValue(this.props.columnDef.emptyValue);
       }
 
-      if (this.props.columnDef.render) {
+      if (this.props.columnDef.render && !this.props.isTotals) {
         if (this.props.rowData) {
           return this.props.columnDef.render(this.props.rowData, 'row');
         } else {
@@ -213,5 +213,6 @@ MTableCell.propTypes = {
   rowData: _propTypes["default"].object,
   isFixed: _propTypes["default"].bool,
   sorting: _propTypes["default"].bool.isRequired,
-  headerFiltering: _propTypes["default"].bool.isRequired
+  headerFiltering: _propTypes["default"].bool.isRequired,
+  isTotals: _propTypes["default"].bool
 };
