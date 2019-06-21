@@ -613,6 +613,14 @@ export default class MaterialTable extends React.Component {
             </div>
           }
         </props.components.Container>
+        <style>{`.totals-row td.MuiTableCell-footer:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      border-bottom: 1px solid rgba(0,0,0,0.12);
+    }`}</style>
       </DragDropContext>
     );
   }
