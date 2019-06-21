@@ -168,12 +168,20 @@ var styles = function styles(theme) {
     '@global': {
       '.totals-row td.MuiTableCell-footer': {
         position: 'sticky',
-        bottom: 1,
+        bottom: 0,
         backgroundColor: theme.palette.background.paper,
         // Change according to theme,
         color: theme.palette.grey['900'],
         fontWeight: 'bold',
         fontSize: '0.875rem'
+      },
+      '.totals-row td.MuiTableCell-footer:before': {
+        content: '',
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: '100%',
+        borderBottom: '1px solid rgba(0,0,0,0.12)'
       }
     }
   };
