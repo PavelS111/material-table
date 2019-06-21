@@ -93,14 +93,6 @@ export const styles = theme => ({
       color: theme.palette.grey['900'],
       fontWeight: 'bold',
       fontSize: '0.875rem'
-    },
-    '.totals-row td.MuiTableCell-footer:before': {
-      content: '',
-      position: 'absolute',
-      left: 0,
-      top: 0,
-      width: '100%',
-      borderBottom: '1px solid rgba(0,0,0,0.12)',
     }
   }
 });
